@@ -80,23 +80,23 @@ static void deinit(void) {
 
 void handle_init(void) {
 	// Passing 0 to subscribe sets up the accelerometer for peeking
-	accel_data_service_subscribe(ACCEL_SAMPLING_25HZ, accel_data_handler);
+	accel_data_service_subscribe (0, NULL)// (ACCEL_SAMPLING_25HZ, accel_data_handler); datalog
 	
 	// Start data logging session
-	//my_data_log = data_logging_create(0, DATA_LOGGING_BYTE_ARRAY, sizeof(AccelData), true);
+	//my_data_log = data_logging_create(0, DATA_LOGGING_BYTE_ARRAY, sizeof(AccelData), true); dataloghere
 }
 
 //Send data log of accelerometer data
 /*
 void accel_data_handler(AccelData *data, uint32_t num_samples) {
-	DataLoggingResult r = data_logging_log(my_data_log, data, num_samples);
+	DataLoggingResult r = data_logging_log(my_data_log, data, num_samples); dataloghere
 }*/
 
 
 void handle_deinit(void) {
 	accel_data_service_unsubscribe();
 	
-	//data_logging_finish(my_data_log);
+	//data_logging_finish(my_data_log); dataloghere
 }
 
 int main(void) {
