@@ -13,7 +13,7 @@ int count = 0;
 STATE mState = start;
 ACTION mAction = none;
 
-DataLoggingSessionRef my_data_log;
+//DataLoggingSessionRef my_data_log;
 
 //GAME INIT
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
@@ -83,19 +83,20 @@ void handle_init(void) {
 	accel_data_service_subscribe(ACCEL_SAMPLING_25HZ, accel_data_handler);
 	
 	// Start data logging session
-	my_data_log = data_logging_create(0, DATA_LOGGING_BYTE_ARRAY, sizeof(AccelData), true);
+	//my_data_log = data_logging_create(0, DATA_LOGGING_BYTE_ARRAY, sizeof(AccelData), true);
 }
 
 //Send data log of accelerometer data
+/*
 void accel_data_handler(AccelData *data, uint32_t num_samples) {
 	DataLoggingResult r = data_logging_log(my_data_log, data, num_samples);
-}
+}*/
 
 
 void handle_deinit(void) {
 	accel_data_service_unsubscribe();
 	
-	data_logging_finish(my_data_log);
+	//data_logging_finish(my_data_log);
 }
 
 int main(void) {
@@ -166,8 +167,13 @@ void handle_check(void) {
 	accel_service_peek(&data); 
 	
 	int x = data.x; //abs(data.x*ACCEL_RATIO);
-	int y = data.x; //abs(data.y*ACCEL_RATIO);
-	int z = data.x; //abs(data.z*ACCEL_RATIO);
+	int y = data.y; //abs(data.y*ACCEL_RATIO);
+	int z = data.z; //abs(data.z*ACCEL_RATIO);
+	
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "x: %d", x);
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "x: %d", y);
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "x: %d", z);
+	
 	/*
 	if ( x>0 && y==0 && z==0) {
 		text_layer_set_text(text_layer, "SUCCESS");
@@ -176,6 +182,7 @@ void handle_check(void) {
 	} else {
 		text_layer_set_text(text_layer, "FAILURE");
 	}*/
+	
 	
 	mState = pick_action;
 	state();
