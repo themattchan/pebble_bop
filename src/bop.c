@@ -83,7 +83,7 @@ void handle_init(void) {
 	accel_data_service_subscribe(ACCEL_SAMPLING_25HZ, accel_data_handler);
 	
 	// Start data logging session
-	my_data_log = data_logging_create(0, DATA_LOG_BYTE_ARRAY, sizeof(AccelData), true);
+	my_data_log = data_logging_create(0, DATA_LOGGING_BYTE_ARRAY, sizeof(AccelData), true);
 }
 
 //Send data log of accelerometer data
