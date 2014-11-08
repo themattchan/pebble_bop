@@ -12,9 +12,30 @@
     "dummy": 0
   },
   "resources": {
-    "media": []
+    "media": [ 
+      {
+          "type":  "png",
+          "name": "BOP",
+          "file":  "images/bop.png"
+      },
+      {
+          "type":  "png",
+          "name": "BOP",
+          "file":  "images/bop.png"
+      },
+      {
+          "type":  "png",
+          "name": "BOP",
+          "file":  "images/bop.png"
+      },
+      {
+          "type":  "png",
+          "name":  "LOGO",
+          "file":  "images/logo.png"
+      }
+    ]
   },
   "type":  "font",
-  "defName":  "FONT_ROBOTO_CONDENSED_42",
-  "file":  "fonts/Roboto-Condensed.tff"
+  "defName":  "FONT_BITHAM_BOLD_42",
+  "file":  "fonts/Bitham-Bold.tff"
 }
