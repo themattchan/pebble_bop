@@ -12,6 +12,7 @@ int count = 0;
 
 STATE mState = start;
 ACTION mAction = none;
+ACTION mGesture = none;
 
 //GAME INIT
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
@@ -78,11 +79,11 @@ static void deinit(void) {
 
 void handle_init(void) {
 	// Passing 0 to subscribe sets up the accelerometer for peeking
-	accel_data_service_subscribe(0, NULL);
+	accel_tap_service_subscribe(accel_tap_handler);
 }
 
 void handle_deinit(void) {
-	accel_data_service_unsubscribe();
+	accel_tap_service_unsubscribe();
 }
 
 int main(void) {
@@ -108,6 +109,25 @@ void state(void) {
 		handle_end(); break;
 	default:
 		break;
+	}
+}
+
+void accel_tap_handler(AccelAxisType axis, int32_t direction) {
+	switch (axis) {
+		case ACCEL_AXIS_X:
+			mGesture = pull;
+			text_layer_set_text(text_layer, "pull");
+			break;
+		case ACCEL_AXIS_Y:
+			mGesture = bop;
+			text_layer_set_text(text_layer, "bop");
+			break;
+		case ACCEL_AXIS_Z:
+			mGesture = twist;
+			text_layer_set_text(text_layer, "twist");
+			break;
+		default:
+			break;
 	}
 }
 

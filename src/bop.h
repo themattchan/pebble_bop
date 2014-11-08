@@ -9,3 +9,5 @@ void handle_end(void);
 void handle_init(void);
 void handle_deinit(void);
 static void timer_callback(void *data);
+
+void accel_tap_handler(AccelAxisType axis, int32_t direction);
