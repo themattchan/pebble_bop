@@ -6,6 +6,7 @@ static TextLayer *text_layer;
 static AppTimer *timer;
 
 int time_interval = 4000;
+int count = 0;
 
 STATE mState = start;
 ACTION mAction = none;
@@ -71,6 +72,15 @@ static void deinit(void) {
 	window_destroy(window);
 }
 
+void handle_init(void) {
+	// Passing 0 to subscribe sets up the accelerometer for peeking
+	accel_data_service_subscribe(0, NULL);
+}
+
+void handle_deinit(void) {
+	accel_data_service_unsubscribe();
+}
+
 int main(void) {
 	init();
 
@@ -85,42 +95,30 @@ int main(void) {
 void state(void) {
 	switch (mState) {
 	case pick_action:
-		pick_action();
-		break;
+		handle_pick_action(); break;
 	case check:
-		check();
-		break;
+		handle_check(); break;
 	case update:
-		break;
+		handle_update(); break;
+	case end:
+		handle_end(); break;
 	default:
 		break;
 	}
 }
 
-
-void handle_init(void) {
-	// Passing 0 to subscribe sets up the accelerometer for peeking
-	accel_data_service_subscribe(0, NULL);
-}
-void handle_deinit(void) {
-	accel_data_service_unsubscribe();
+void handle_end(void) {
+	char *score = atoa(count);
+	text_layer_set_text(text_layer, score);
 }
 
-static void timer_callback(void *data) {
-	if(mState == pick_action){
-		mState = check;
-		state();
-	}
-}
-
-void handle_check(void) {
-	/* AccelData data; */
-	/* accel_service_peek(&data); */
+void handle_update(void) {
+	//update game variables
+	count++;
+	time_interval/=10;
+	
 	mState = pick_action;
 	state();
-
-	/* //Resets Timer */
-	/* timer = app_timer_register(time_interval, timer_callback, NULL); */
 }
 
 void handle_pick_action(void) {
@@ -145,4 +143,25 @@ void handle_pick_action(void) {
 	vibes_short_pulse();
 	//(re)start Timer
 	timer = app_timer_register(time_interval, timer_callback, NULL);
+}
+
+void handle_check(void) {
+	/* AccelData data; */
+	/* accel_service_peek(&data); */
+	if (true){
+		mState = update;
+		state();
+	} else {
+		mState = end;
+		state();
+	}
+	/* //Resets Timer */
+	/* timer = app_timer_register(time_interval, timer_callback, NULL); */
+}
+
+static void timer_callback(void *data) {
+	if(mState == pick_action){
+		mState = check;
+		state();
+	}
 }
