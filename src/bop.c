@@ -40,7 +40,7 @@ static void window_load(Window *window) {
 
 	text_layer = text_layer_create((GRect) {
 			.origin = { 0, 72 },
-			.size = { bounds.size.w, 20 } });
+				.size = { bounds.size.w, 20 } });
 	//set text attributes
 	text_layer_set_text(text_layer, "START");
 	text_layer_set_text_color(text_layer, GColorBlack);
@@ -55,17 +55,15 @@ static void window_unload(Window *window) {
 }
 
 static void init(void) {
-  window = window_create();
-  window_set_click_config_provider(window, click_config_provider);
-  window_set_window_handlers(window, (WindowHandlers) {
-    .load = window_load,
-    .unload = window_unload,
-  });
-  const bool animated = true;
-  window_stack_push(window, animated);
-  
-  //Start Accel Data Service
-  handle_init();
+	window = window_create();
+	window_set_click_config_provider(window, click_config_provider);
+	window_set_window_handlers(window, (WindowHandlers)
+							   {load = window_load, .unload = window_unload});
+	const bool animated = true;
+	window_stack_push(window, animated);
+
+	//Start Accel Data Service
+	handle_init();
 }
 
 static void deinit(void) {
@@ -86,17 +84,19 @@ int main(void) {
 
 void state(void) {
 	switch (mState) {
-		case pick_action:
-			pick_action();
-			break;
-		case check:
-			check();
-			break;
-		case update:
-			break;
-		default:
-			break;
+	case pick_action:
+		pick_action();
+		break;
+	case check:
+		check();
+		break;
+	case update:
+		break;
+	default:
+		break;
+	}
 }
+
 
 void handle_init(void) {
 	// Passing 0 to subscribe sets up the accelerometer for peeking
