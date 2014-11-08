@@ -1,6 +1,8 @@
 #include <pebble.h>
 #include "bop.h"
 
+#define ACCEL_RATIO 0.001
+
 static Window *window;
 static TextLayer *text_layer;
 static AppTimer *timer;
@@ -49,6 +51,8 @@ static void window_load(Window *window) {
 	//set background color
 	text_layer_set_background_color(text_layer, GColorClear);
 	layer_add_child(window_layer, text_layer_get_layer(text_layer));
+	//turn backlight on
+	light_enable(true);
 }
 
 static void window_unload(Window *window) {
@@ -138,8 +142,6 @@ void handle_pick_action(void) {
 	default:
 		return;
 	}
-	//turn on backlight for action instr
-	light_enable_interaction();
 	//haptic feedback for new action
 	vibes_short_pulse();
 	//(re)start Timer
@@ -147,10 +149,20 @@ void handle_pick_action(void) {
 }
 
 void handle_check(void) {
-	/* AccelData data; */
-	/* accel_service_peek(&data); */
-		mState = update;
-		state();
+	AccelData data;
+	accel_service_peek(&data); 
+	
+	int x = abs(data.x*ACCEL_RATIO);
+	int y = abs(data.y*ACCEL_RATIO);
+	int z = abs(data.z*ACCEL_RATIO);
+	
+	if ( x>0 && y==0 && z==0) {
+		text_layer_set_text(text_layer, "SUCCESS");
+		//mState = update;
+		//state();
+	} else {
+		text_layer_set_text(text_layer, "FAILURE");
+	}
 }
 
 static void timer_callback(void *data) {
