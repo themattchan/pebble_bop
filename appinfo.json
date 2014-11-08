@@ -13,5 +13,8 @@
   },
   "resources": {
     "media": []
-  }
+  },
+  "type":  "font",
+  "defName":  "FONT_ROBOTO_CONDENSED_42",
+  "file":  "fonts/Roboto-Condensed.tff"
 }
