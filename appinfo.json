@@ -12,7 +12,32 @@
     "dummy": 0
   },
   "resources": {
-    "media": []
+    "media": [
+        /*{
+            "type": "png",
+            "menuIcon": true,
+            "name": "LOGO",
+            "file": "images/logo.png"
+        },
+        {
+            "type": "png",
+            "menuIcon": false,
+            "name": "BOP",
+            "file": "images/bop.png"
+        },
+        {
+            "type": "png",
+            "menuIcon": false,
+            "name": "TWIST",
+            "file": "images/twist.png"
+        },
+        {
+            "type": "png",
+            "menuIcon": false,
+            "name": "PULL",
+            "file": "images/pull.png"
+        }*/
+    ]
   },
   "type":  "font",
   "defName":  "FONT_BITHAM_BOLD_42",
