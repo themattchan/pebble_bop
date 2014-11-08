@@ -18,7 +18,7 @@ ACTION mGesture = none;
 //GAME INIT
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 	//text_layer_set_text(text_layer, "Select");
-	yif (mState == start) {
+	if (mState == start) {
 		mState = pick_action;
 		state();
 	}
@@ -177,14 +177,6 @@ void handle_pick_action(void) {
 }
 
 void handle_check(void) {
-	int x = data.x; //abs(data.x*ACCEL_RATIO);
-	int y = data.y; //abs(data.y*ACCEL_RATIO);
-	int z = data.z; //abs(data.z*ACCEL_RATIO);
-	
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "x: %d", x);
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "y: %d", y);
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "z: %d", z);
-	
 	/*
 	if ( x>0 && y==0 && z==0) {
 		text_layer_set_text(text_layer, "SUCCESS");
@@ -193,7 +185,6 @@ void handle_check(void) {
 	} else {
 		text_layer_set_text(text_layer, "FAILURE");
 	}*/
-	
 	
 	mState = pick_action;
 	state();
