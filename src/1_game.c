@@ -88,7 +88,7 @@ void state(void) {
 	case end:
 		handle_end(); break;
 	default:
-		break;
+		text_layer_set_text(text_layer, "ERROR"); break;
 	}
 }
 
@@ -114,9 +114,10 @@ void accel_tap_handler(AccelAxisType axis, int32_t direction) {
 }
 
 void handle_end(void) {
-	char score[sizeof(int)];
-	snprintf(score, sizeof(int), "%d", count);
-	text_layer_set_text(text_layer, score);
+	/*char score[sizeof(int)];
+	snprintf(score, sizeof(int), "%d", count);*/
+	text_layer_set_text(text_layer, "END");
+	
 	vibes_double_pulse();
 }
 
