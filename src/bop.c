@@ -9,9 +9,13 @@ double time_interval = 5000;
 int count = 0;
 
 STATE mState = start;
+<<<<<<< HEAD
 ACTION mAction = none;			/* condition to run random number seed */
+=======
+ACTION mAction = none;
+ACTION mGesture = none;
+>>>>>>> branch_rex
 
-//DataLoggingSessionRef my_data_log;
 
 //GAME INIT
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
@@ -76,24 +80,11 @@ static void deinit(void) {
 }
 
 void handle_init(void) {
-	// Passing 0 to subscribe sets up the accelerometer for peeking
-	accel_data_service_subscribe (0, NULL);// (ACCEL_SAMPLING_25HZ, accel_data_handler); datalog
-
-	// Start data logging session
-	//my_data_log = data_logging_create(0, DATA_LOGGING_BYTE_ARRAY, sizeof(AccelData), true); dataloghere
+	accel_tap_service_subscribe(accel_tap_handler);
 }
 
-//Send data log of accelerometer data
-/*
-  void accel_data_handler(AccelData *data, uint32_t num_samples) {
-  DataLoggingResult r = data_logging_log(my_data_log, data, num_samples); dataloghere
-  }*/
-
-
 void handle_deinit(void) {
-	accel_data_service_unsubscribe();
-
-	//data_logging_finish(my_data_log); dataloghere
+	accel_tap_service_unsubscribe();
 }
 
 int main(void) {
@@ -119,6 +110,25 @@ void state(void) {
 		handle_end(); break;
 	default:
 		break;
+	}
+}
+
+void accel_tap_handler(AccelAxisType axis, int32_t direction) {
+	switch (axis) {
+		case ACCEL_AXIS_X:
+			mGesture = pull;
+			text_layer_set_text(text_layer, "pull");
+			break;
+		case ACCEL_AXIS_Y:
+			mGesture = bop;
+			text_layer_set_text(text_layer, "bop");
+			break;
+		case ACCEL_AXIS_Z:
+			mGesture = twist;
+			text_layer_set_text(text_layer, "twist");
+			break;
+		default:
+			break;
 	}
 }
 
@@ -165,27 +175,6 @@ void handle_pick_action(void) {
 }
 
 void handle_check(void) {
-	AccelData data;
-	accel_service_peek(&data);
-
-	int x = data.x; //abs(data.x*ACCEL_RATIO);
-	int y = data.y; //abs(data.y*ACCEL_RATIO);
-	int z = data.z; //abs(data.z*ACCEL_RATIO);
-
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "x: %d", x);
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "x: %d", y);
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "x: %d", z);
-
-	/*
-	  if ( x>0 && y==0 && z==0) {
-	  text_layer_set_text(text_layer, "SUCCESS");
-	  //mState = update;
-	  //state();
-	  } else {
-	  text_layer_set_text(text_layer, "FAILURE");
-	  }*/
-
-
 	mState = pick_action;
 	state();
 }
