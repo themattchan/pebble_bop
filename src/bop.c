@@ -65,6 +65,8 @@ static void init(void) {
 
 	//Start Accel Data Service
 	handle_init();
+	
+	srand(time(NULL));
 }
 
 static void deinit(void) {
@@ -115,14 +117,13 @@ void handle_end(void) {
 void handle_update(void) {
 	//update game variables
 	count++;
-	time_interval -= 1000;
+	time_interval *= 0.9;
 
 	mState = pick_action;
 	state();
 }
 
 void handle_pick_action(void) {
-	srand(time(NULL));
 	mAction = rand()%3;
 	switch (mAction) {
 	case bop:
