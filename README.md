@@ -1,2 +1,5 @@
-pebble_bop
+Pebble Bop
 ==========
+
+Bop-it for the Pebble watch. HackSC 2014.
+
