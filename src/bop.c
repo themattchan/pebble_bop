@@ -5,7 +5,7 @@ static Window *window;
 static TextLayer *text_layer;
 static AppTimer *timer;
 
-int time_interval = 4000;
+double time_interval = 5000;
 int count = 0;
 
 STATE mState = start;
@@ -59,7 +59,7 @@ static void init(void) {
 	window = window_create();
 	window_set_click_config_provider(window, click_config_provider);
 	window_set_window_handlers(window, (WindowHandlers)
-							   {load = window_load, .unload = window_unload});
+							   {.load = window_load, .unload = window_unload});
 	const bool animated = true;
 	window_stack_push(window, animated);
 
@@ -108,15 +108,15 @@ void state(void) {
 }
 
 void handle_end(void) {
-	char *score = atoa(count);
-	text_layer_set_text(text_layer, score);
+	/* char *score = atoa(count); */
+	/* text_layer_set_text(text_layer, score); */
 }
 
 void handle_update(void) {
 	//update game variables
 	count++;
-	time_interval/=10;
-	
+	time_interval *= 0.9;
+
 	mState = pick_action;
 	state();
 }
@@ -158,8 +158,8 @@ void handle_check(void) {
 }
 
 static void timer_callback(void *data) {
-	if(mState == pick_action){
-		mState = check;
+	//	if(mState == pick_action){
+		mState = pick_action;
 		state();
-	}
+	/* } */
 }
