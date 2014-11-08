@@ -14,10 +14,11 @@ STATE mState = start;
 ACTION mAction = none;
 ACTION mGesture = none;
 
+
 //GAME INIT
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 	//text_layer_set_text(text_layer, "Select");
-	if (mState == start) {
+	yif (mState == start) {
 		mState = pick_action;
 		state();
 	}
@@ -44,11 +45,13 @@ static void window_load(Window *window) {
 
 	text_layer = text_layer_create((GRect) {
 			.origin = { 0, 72 },
-				.size = { bounds.size.w, 20 } });
+			.size = { bounds.size.w, 20 }
+	});
 	//set text attributes
 	text_layer_set_text(text_layer, "START");
 	text_layer_set_text_color(text_layer, GColorBlack);
 	text_layer_set_text_alignment(text_layer, GTextAlignmentCenter);
+	text_layer_set_font(text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
 	//set background color
 	text_layer_set_background_color(text_layer, GColorClear);
 	layer_add_child(window_layer, text_layer_get_layer(text_layer));
@@ -63,8 +66,10 @@ static void window_unload(Window *window) {
 static void init(void) {
 	window = window_create();
 	window_set_click_config_provider(window, click_config_provider);
-	window_set_window_handlers(window, (WindowHandlers)
-							   {.load = window_load, .unload = window_unload});
+	window_set_window_handlers(window, (WindowHandlers) {
+			.load = window_load,
+			.unload = window_unload
+	});
 	const bool animated = true;
 	window_stack_push(window, animated);
 
@@ -80,6 +85,7 @@ static void deinit(void) {
 void handle_init(void) {
 	// Passing 0 to subscribe sets up the accelerometer for peeking
 	accel_tap_service_subscribe(accel_tap_handler);
+
 }
 
 void handle_deinit(void) {
@@ -147,7 +153,9 @@ void handle_update(void) {
 }
 
 void handle_pick_action(void) {
-	srand(time(NULL));
+	if (mAction == none)
+		srand(time(NULL));
+
 	mAction = rand()%3;
 	switch (mAction) {
 	case bop:
@@ -169,12 +177,14 @@ void handle_pick_action(void) {
 }
 
 void handle_check(void) {
-	AccelData data;
-	accel_service_peek(&data); 
-	
 	int x = data.x; //abs(data.x*ACCEL_RATIO);
-	int y = data.x; //abs(data.y*ACCEL_RATIO);
-	int z = data.x; //abs(data.z*ACCEL_RATIO);
+	int y = data.y; //abs(data.y*ACCEL_RATIO);
+	int z = data.z; //abs(data.z*ACCEL_RATIO);
+	
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "x: %d", x);
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "y: %d", y);
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "z: %d", z);
+	
 	/*
 	if ( x>0 && y==0 && z==0) {
 		text_layer_set_text(text_layer, "SUCCESS");
@@ -184,7 +194,6 @@ void handle_check(void) {
 		text_layer_set_text(text_layer, "FAILURE");
 	}*/
 	
-	printf("xyz: %d %d %d \n\n", x, y, z);
 	
 	mState = pick_action;
 	state();
