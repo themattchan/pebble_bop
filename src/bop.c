@@ -4,19 +4,36 @@ static Window *window;
 static TextLayer *text_layer;
 static AppTimer *timer;
 
-double time_interval = 0.0;
+int time_interval = 10000;
+
+typedef enum {start, pick_action, check, update} STATE;
+STATE mState = start;
+
+typedef enum {bop, pull, twist} ACTION;
+ACTION mAction = NULL;
+
 
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
-  text_layer_set_text(text_layer, "Select");
+  //text_layer_set_text(text_layer, "Select");
+  if (mState == start) {  
+	//Start Accel Data Service
+	handle_init();
+	
+	mState = pick_action;
+	pick_action();
+	
+	//Start Timer
+	timer = app_timer_register(time_interval, timer_callback, NULL);
+  }
 }
 
-static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
+/*static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
   text_layer_set_text(text_layer, "Up");
 }
 
 static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
   text_layer_set_text(text_layer, "Down");
-}
+}*/
 
 static void click_config_provider(void *context) {
   window_single_click_subscribe(BUTTON_ID_SELECT, select_click_handler);
@@ -51,12 +68,6 @@ static void init(void) {
   });
   const bool animated = true;
   window_stack_push(window, animated);
-  
-  //Start Accel Data Service
-  handle_init();
-  
-  //Start Timer
-  timer = app_timer_register(time_interval, timer_callback, NULL);
 }
 
 static void deinit(void) {
@@ -92,5 +103,29 @@ static void timer_callback(void *data) {
   //Resets Timer
   timer = app_timer_register(time_interval, timer_callback, NULL);
 }
+
+void pick_action(void) {
+	srand(time(NULL));
+	int actionNum = rand()%3;
+	mAction = actionNum
+	switch (actionNum) {
+		case 0:
+			//bop display to screen
+			mAction = bop;
+			break;
+		case 1:
+			//pull;
+			mAction = pull;
+			break;
+		case 2:
+			//twist
+			mAction = twist;
+			break;
+		default:
+			break;
+	}
+	
+}
+
 
 
