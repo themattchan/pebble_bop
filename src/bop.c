@@ -19,6 +19,11 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 	if (mState == start) {
 		mState = pick_action;
 		state();
+	} else if (mState == end) {
+		mState = start;
+		count = 0;
+		time_interval = 5000;
+		text_layer_set_text(text_layer, "START");
 	}
 }
 
@@ -80,8 +85,6 @@ void state(void) {
 		handle_pick_action(); break;
 	case check:
 		handle_check(); break;
-	case update:
-		handle_update(); break;
 	case end:
 		handle_end(); break;
 	default:
