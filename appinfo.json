@@ -20,13 +20,13 @@
       },
       {
           "type":  "png",
-          "name": "BOP",
-          "file":  "images/bop.png"
+          "name": "TWIST",
+          "file":  "images/twist.png"
       },
       {
           "type":  "png",
-          "name": "BOP",
-          "file":  "images/bop.png"
+          "name": "PULL",
+          "file":  "images/pull.png"
       },
       {
           "type":  "png",
