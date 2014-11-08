@@ -55,7 +55,6 @@ static void window_unload(Window *window) {
 }
 
 static void init(void) {
-<<<<<<< HEAD
   window = window_create();
   window_set_click_config_provider(window, click_config_provider);
   window_set_window_handlers(window, (WindowHandlers) {
@@ -67,17 +66,6 @@ static void init(void) {
   
   //Start Accel Data Service
   handle_init();
-=======
-	window = window_create();
-	window_set_click_config_provider(window, click_config_provider);
-	window_set_window_handlers(window, (WindowHandlers) {
-			.load = window_load,
-				.unload = window_unload,
-				});
-	const bool animated = true;
-	window_stack_push(window, animated);
-	handle_init();
->>>>>>> 5418044505ac59d4a2f41c77b92279fd13636a38
 }
 
 static void deinit(void) {
@@ -98,7 +86,6 @@ int main(void) {
 
 void state(void) {
 	switch (mState) {
-<<<<<<< HEAD
 		case pick_action:
 			pick_action();
 			break;
@@ -109,22 +96,6 @@ void state(void) {
 			break;
 		default:
 			break;
-=======
-	case pick_action:
-		//Start Accel Data Service
-		handle_pick_action();
-		//Start Timer
-		//timer = app_timer_register(time_interval, timer_callback, NULL);
-		break;
-	case check:
-		handle_check();
-		break;
-	case update:
-		break;
-	default:
-		break;
->>>>>>> 5418044505ac59d4a2f41c77b92279fd13636a38
-	}
 }
 
 void handle_init(void) {
@@ -136,24 +107,6 @@ void handle_deinit(void) {
 }
 
 static void timer_callback(void *data) {
-<<<<<<< HEAD
-	mState = check;
-	state();
-}
-
-void check(void) {
-  //AccelData data;
-  //accel_service_peek(&data);
-  //if success, pick action
-  
-  mState = pick_action;
-  state();
-  
-  //if fail, end return
-  
-  //Resets Timer
-  //timer = app_timer_register(time_interval, timer_callback, NULL);
-=======
 	if(mState == pick_action){
 		mState = check;
 		state();
@@ -168,7 +121,6 @@ void handle_check(void) {
 
 	/* //Resets Timer */
 	/* timer = app_timer_register(time_interval, timer_callback, NULL); */
->>>>>>> 5418044505ac59d4a2f41c77b92279fd13636a38
 }
 
 void handle_pick_action(void) {
