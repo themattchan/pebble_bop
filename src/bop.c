@@ -65,8 +65,6 @@ static void init(void) {
 
 	//Start Accel Data Service
 	handle_init();
-	
-	srand(time(NULL));
 }
 
 static void deinit(void) {
@@ -110,8 +108,9 @@ void state(void) {
 }
 
 void handle_end(void) {
-	/* char *score = atoa(count); */
-	/* text_layer_set_text(text_layer, score); */
+	char *score;
+	itoa(count, score, 10);
+	text_layer_set_text(text_layer, score);
 }
 
 void handle_update(void) {
@@ -124,6 +123,7 @@ void handle_update(void) {
 }
 
 void handle_pick_action(void) {
+	srand(time(NULL));
 	mAction = rand()%3;
 	switch (mAction) {
 	case bop:
