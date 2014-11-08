@@ -5,21 +5,15 @@ static Window *window;
 static TextLayer *text_layer;
 static AppTimer *timer;
 
-double time_interval = 5000;
 int count = 0;
+double time_interval = 5000;
 
 STATE mState = start;
-<<<<<<< HEAD
-ACTION mAction = none;			/* condition to run random number seed */
-=======
+
 ACTION mAction = none;
 ACTION mGesture = none;
->>>>>>> branch_rex
 
-
-//GAME INIT
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
-	//text_layer_set_text(text_layer, "Select");
 	if (mState == start) {
 		mState = pick_action;
 		state();
@@ -60,7 +54,7 @@ static void window_unload(Window *window) {
 	text_layer_destroy(text_layer);
 }
 
-static void init(void) {
+static void bob_init(void) {
 	window = window_create();
 	window_set_click_config_provider(window, click_config_provider);
 	window_set_window_handlers(window, (WindowHandlers) {
@@ -70,33 +64,13 @@ static void init(void) {
 	const bool animated = true;
 	window_stack_push(window, animated);
 
-	//Start Accel Data Service
-	handle_init();
-}
-
-static void deinit(void) {
-	handle_deinit();
-	window_destroy(window);
-}
-
-void handle_init(void) {
 	accel_tap_service_subscribe(accel_tap_handler);
 }
 
-void handle_deinit(void) {
+static void bob_deinit(void) {
+	window_destroy(window);
 	accel_tap_service_unsubscribe();
 }
-
-int main(void) {
-	init();
-
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "Done initializing, pushed window: %p", window);
-
-	app_event_loop();
-	deinit();
-}
-
-//typedef enum {start, pick_action, check, update} STATE;
 
 void state(void) {
 	switch (mState) {
@@ -114,18 +88,20 @@ void state(void) {
 }
 
 void accel_tap_handler(AccelAxisType axis, int32_t direction) {
+	if(mState==start)
+		return;
 	switch (axis) {
 		case ACCEL_AXIS_X:
 			mGesture = pull;
 			text_layer_set_text(text_layer, "pull!");
 			break;
 		case ACCEL_AXIS_Y:
-			mGesture = bop;
-			text_layer_set_text(text_layer, "bop!");
-			break;
-		case ACCEL_AXIS_Z:
 			mGesture = twist;
 			text_layer_set_text(text_layer, "twist!");
+			break;
+		case ACCEL_AXIS_Z:
+			mGesture = bop;
+			text_layer_set_text(text_layer, "bop!");
 			break;
 		default:
 			break;
