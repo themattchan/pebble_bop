@@ -108,8 +108,8 @@ void state(void) {
 }
 
 void handle_end(void) {
-	char *score;
-	itoa(count, score, 10);
+	char score[sizeof(int)];
+	sprintf(score, sizeof(int), "%d", count); 
 	text_layer_set_text(text_layer, score);
 }
 
