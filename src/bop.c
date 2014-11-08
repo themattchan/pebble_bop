@@ -13,6 +13,8 @@ int count = 0;
 STATE mState = start;
 ACTION mAction = none;
 
+DataLoggingSessionRef my_data_log;
+
 //GAME INIT
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 	//text_layer_set_text(text_layer, "Select");
@@ -78,11 +80,22 @@ static void deinit(void) {
 
 void handle_init(void) {
 	// Passing 0 to subscribe sets up the accelerometer for peeking
-	accel_data_service_subscribe(0, NULL);
+	accel_data_service_subscribe(ACCEL_SAMPLING_25HZ, accel_data_handler);
+	
+	// Start data logging session
+	my_data_log = data_logging_create(0, DATA_LOG_BYTE_ARRAY, sizeof(AccelData), true);
 }
+
+//Send data log of accelerometer data
+void accel_data_handler(AccelData *data, uint32_t num_samples) {
+	DataLoggingResult r = data_logging_log(my_data_log, data, num_samples);
+}
+
 
 void handle_deinit(void) {
 	accel_data_service_unsubscribe();
+	
+	data_logging_finish(my_data_log);
 }
 
 int main(void) {
@@ -163,8 +176,6 @@ void handle_check(void) {
 	} else {
 		text_layer_set_text(text_layer, "FAILURE");
 	}*/
-	
-	printf("xyz: %d %d %d \n\n", x, y, z);
 	
 	mState = pick_action;
 	state();
