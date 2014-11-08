@@ -73,11 +73,6 @@ static void init(void) {
 
 	//Start Accel Data Service
 	handle_init();
-<<<<<<< HEAD
-=======
-
-	srand(time(NULL));
->>>>>>> fonts and random no. generator
 }
 
 static void deinit(void) {
@@ -148,12 +143,8 @@ void handle_update(void) {
 }
 
 void handle_pick_action(void) {
-<<<<<<< HEAD
-	srand(time(NULL));
-=======
-	if (mAction == -1)
+	if (mAction == none)
 		srand(time(NULL));
->>>>>>> fonts and random no. generator
 	mAction = rand()%3;
 	switch (mAction) {
 	case bop:
