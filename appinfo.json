@@ -38,8 +38,5 @@
             "file": "images/pull.png"
         }*/
     ]
-  },
-  "type":  "font",
-  "defName":  "FONT_BITHAM_BOLD_42",
-  "file":  "fonts/Bitham-Bold.tff"
+  }
 }
