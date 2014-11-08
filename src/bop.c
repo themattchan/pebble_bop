@@ -1,8 +1,6 @@
 #include <pebble.h>
 #include "bop.h"
 
-#define ACCEL_RATIO 0.001
-
 static Window *window;
 static TextLayer *text_layer;
 static AppTimer *timer;
@@ -11,14 +9,14 @@ double time_interval = 5000;
 int count = 0;
 
 STATE mState = start;
-ACTION mAction = -1;			/* condition to run random number seed */
+ACTION mAction = none;			/* condition to run random number seed */
 
 //DataLoggingSessionRef my_data_log;
 
 //GAME INIT
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 	//text_layer_set_text(text_layer, "Select");
-	yif (mState == start) {
+	if (mState == start) {
 		mState = pick_action;
 		state();
 	}
