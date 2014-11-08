@@ -1,3 +1,5 @@
+#define ACCEL_RATIO 0.001
+
 typedef enum {start, pick_action, check, update, end} STATE;
 typedef enum {none, bop, pull, twist} ACTION;
 
