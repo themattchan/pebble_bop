@@ -11,12 +11,12 @@ double time_interval = 5000;
 int count = 0;
 
 STATE mState = start;
-ACTION mAction = none;
+ACTION mAction = -1;			/* condition to run random number seed */
 
 //GAME INIT
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 	//text_layer_set_text(text_layer, "Select");
-	if (mState == start) {
+	yif (mState == start) {
 		mState = pick_action;
 		state();
 	}
@@ -43,11 +43,13 @@ static void window_load(Window *window) {
 
 	text_layer = text_layer_create((GRect) {
 			.origin = { 0, 72 },
-				.size = { bounds.size.w, 20 } });
+			.size = { bounds.size.w, 20 }
+	});
 	//set text attributes
 	text_layer_set_text(text_layer, "START");
 	text_layer_set_text_color(text_layer, GColorBlack);
 	text_layer_set_text_alignment(text_layer, GTextAlignmentCenter);
+	text_layer_set_font(text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
 	//set background color
 	text_layer_set_background_color(text_layer, GColorClear);
 	layer_add_child(window_layer, text_layer_get_layer(text_layer));
@@ -62,13 +64,20 @@ static void window_unload(Window *window) {
 static void init(void) {
 	window = window_create();
 	window_set_click_config_provider(window, click_config_provider);
-	window_set_window_handlers(window, (WindowHandlers)
-							   {.load = window_load, .unload = window_unload});
+	window_set_window_handlers(window, (WindowHandlers) {
+			.load = window_load,
+			.unload = window_unload
+	});
 	const bool animated = true;
 	window_stack_push(window, animated);
 
 	//Start Accel Data Service
 	handle_init();
+<<<<<<< HEAD
+=======
+
+	srand(time(NULL));
+>>>>>>> fonts and random no. generator
 }
 
 static void deinit(void) {
@@ -127,7 +136,12 @@ void handle_update(void) {
 }
 
 void handle_pick_action(void) {
+<<<<<<< HEAD
 	srand(time(NULL));
+=======
+	if (mAction == -1)
+		srand(time(NULL));
+>>>>>>> fonts and random no. generator
 	mAction = rand()%3;
 	switch (mAction) {
 	case bop:
