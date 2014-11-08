@@ -5,6 +5,8 @@ static Window *window;
 static TextLayer *text_layer;
 static AppTimer *timer;
 
+static int randInt = -1;
+	
 int count = 0;
 double time_interval = 5000;
 
@@ -112,19 +114,10 @@ void handle_end(void) {
 	char score[sizeof(int)];
 	snprintf(score, sizeof(int), "%d", count);
 	text_layer_set_text(text_layer, score);
-}
-
-void handle_update(void) {
-	//update game variables
-	count++;
-	time_interval *= 0.9;
-
-	mState = pick_action;
-	state();
+	vibes_double_pulse();
 }
 
 void handle_pick_action(void) {
-	static int randInt = -1;
 	if (randInt == -1)
 		srand(time(NULL));
 	randInt = rand()%3;
@@ -151,7 +144,13 @@ void handle_pick_action(void) {
 }
 
 void handle_check(void) {
-	mState = pick_action;
+	if(mAction == mGesture){ //success
+		count++;
+		timer_interval-=500;
+		mState = pick_action;
+	} else { //fail
+		mState = end;
+	}
 	state();
 }
 
