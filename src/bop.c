@@ -12,19 +12,13 @@ STATE mState = start;
 typedef enum {bop, pull, twist} ACTION;
 ACTION mAction = NULL;
 
-
+//GAME INIT
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
   //text_layer_set_text(text_layer, "Select");
   if (mState == start) {  
-	//Start Accel Data Service
-	handle_init();
-	
 	mState = pick_action;
-	pick_action();
-	
-	//Start Timer
-	timer = app_timer_register(time_interval, timer_callback, NULL);
   }
+  state();
 }
 
 /*static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
@@ -84,11 +78,27 @@ int main(void) {
   deinit();
 }
 
-void update_ui_from_accel(void) {
-  AccelData data;
-  accel_service_peek(&data);
-  // Insert UI code here
+//typedef enum {start, pick_action, check, update} STATE;
+
+void state() {
+	switch (mState) {
+		case pick_action:
+			//Start Accel Data Service
+			handle_init();
+			pick_action();
+			//Start Timer
+			timer = app_timer_register(time_interval, timer_callback, NULL);
+			break;
+		case check:
+			check();
+			break;
+		case update:
+			break;
+		default:
+			break;
+	}
 }
+
 void handle_init(void) {
   // Passing 0 to subscribe sets up the accelerometer for peeking
   accel_data_service_subscribe(0, NULL);
@@ -98,7 +108,16 @@ void handle_deinit(void) {
 }
 
 static void timer_callback(void *data) {
-  //Insert Check State Here
+  if(mState == pick_action){
+	mState = check;
+	state();
+  }
+}
+
+void check(void) {
+  AccelData data;
+  accel_service_peek(&data);
+  
   
   //Resets Timer
   timer = app_timer_register(time_interval, timer_callback, NULL);
@@ -106,25 +125,20 @@ static void timer_callback(void *data) {
 
 void pick_action(void) {
 	srand(time(NULL));
-	int actionNum = rand()%3;
-	mAction = actionNum
-	switch (actionNum) {
-		case 0:
-			//bop display to screen
-			mAction = bop;
+	mAction = rand()%3;
+	switch (mAction) {
+		case bop:
+			text_layer_set_text(text_layer, "BOP");
 			break;
-		case 1:
-			//pull;
-			mAction = pull;
+		case pull:
+			text_layer_set_text(text_layer, "PULL");
 			break;
-		case 2:
-			//twist
-			mAction = twist;
+		case twist:
+			text_layer_set_text(text_layer, "TWIST");
 			break;
 		default:
 			break;
 	}
-	
 }
 
 
