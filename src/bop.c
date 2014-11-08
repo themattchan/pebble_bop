@@ -113,7 +113,7 @@ void state(void) {
 
 void handle_end(void) {
 	char score[sizeof(int)];
-	sprintf(score, sizeof(int), "%d", count); 
+	snprintf(score, sizeof(int), "%d", count); 
 	text_layer_set_text(text_layer, score);
 }
 
