@@ -155,8 +155,6 @@ void handle_check(void) {
 		mState = end;
 		state();
 	}
-	/* //Resets Timer */
-	/* timer = app_timer_register(time_interval, timer_callback, NULL); */
 }
 
 static void timer_callback(void *data) {
