@@ -115,7 +115,7 @@ void handle_end(void) {
 void handle_update(void) {
 	//update game variables
 	count++;
-	time_interval *= 0.9;
+	time_interval -= 1000;
 
 	mState = pick_action;
 	state();
@@ -148,18 +148,11 @@ void handle_pick_action(void) {
 void handle_check(void) {
 	/* AccelData data; */
 	/* accel_service_peek(&data); */
-	if (true){
 		mState = update;
 		state();
-	} else {
-		mState = end;
-		state();
-	}
 }
 
 static void timer_callback(void *data) {
-	//	if(mState == pick_action){
-		mState = pick_action;
+		mState = check;
 		state();
-	/* } */
 }
