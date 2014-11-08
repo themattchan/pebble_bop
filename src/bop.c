@@ -51,6 +51,7 @@ static void init(void) {
 }
 
 static void deinit(void) {
+  handle_deinit();
   window_destroy(window);
 }
 
@@ -61,4 +62,17 @@ int main(void) {
 
   app_event_loop();
   deinit();
+}
+
+void update_ui_from_accel(void) {
+  AccelData data;
+  accel_service_peek(&data);
+  // Insert UI code here
+}
+void handle_init(void) {
+  // Passing 0 to subscribe sets up the accelerometer for peeking
+  accel_data_service_subscribe(0, NULL);
+}
+void handle_deinit(void) {
+  accel_data_service_unsubscribe();
 }
