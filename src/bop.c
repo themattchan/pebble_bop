@@ -19,6 +19,7 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 	state();
 }
 
+/* Need implementations for unused handlers */
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
 	/* text_layer_set_text(text_layer, "Up"); */
 }
@@ -62,6 +63,7 @@ static void init(void) {
 				});
 	const bool animated = true;
 	window_stack_push(window, animated);
+	handle_init();
 }
 
 static void deinit(void) {
@@ -84,10 +86,9 @@ void state(void) {
 	switch (mState) {
 	case pick_action:
 		//Start Accel Data Service
-		handle_init();
 		handle_pick_action();
 		//Start Timer
-		timer = app_timer_register(time_interval, timer_callback, NULL);
+		//timer = app_timer_register(time_interval, timer_callback, NULL);
 		break;
 	case check:
 		handle_check();
@@ -115,12 +116,13 @@ static void timer_callback(void *data) {
 }
 
 void handle_check(void) {
-	AccelData data;
-	accel_service_peek(&data);
+	/* AccelData data; */
+	/* accel_service_peek(&data); */
+	mState = pick_action;
+	state();
 
-
-	//Resets Timer
-	timer = app_timer_register(time_interval, timer_callback, NULL);
+	/* //Resets Timer */
+	/* timer = app_timer_register(time_interval, timer_callback, NULL); */
 }
 
 void handle_pick_action(void) {
