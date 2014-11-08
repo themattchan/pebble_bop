@@ -9,13 +9,8 @@ double time_interval = 5000;
 int count = 0;
 
 STATE mState = start;
-<<<<<<< HEAD
-ACTION mAction = none;			/* condition to run random number seed */
-=======
 ACTION mAction = none;
 ACTION mGesture = none;
->>>>>>> branch_rex
-
 
 //GAME INIT
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
