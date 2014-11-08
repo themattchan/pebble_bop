@@ -1,5 +1,5 @@
 typedef enum {start, pick_action, check, update} STATE;
-typedef enum {bop, pull, twist} ACTION;
+typedef enum {none, bop, pull, twist} ACTION;
 
 void state(void);
 void handle_pick_action(void);

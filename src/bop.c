@@ -5,18 +5,18 @@ static Window *window;
 static TextLayer *text_layer;
 static AppTimer *timer;
 
-int time_interval = 10000;
+int time_interval = 4000;
 
 STATE mState = start;
-ACTION mAction = bop;
+ACTION mAction = none;
 
 //GAME INIT
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 	//text_layer_set_text(text_layer, "Select");
 	if (mState == start) {
 		mState = pick_action;
+		state();
 	}
-	state();
 }
 
 /* Need implementations for unused handlers */
@@ -137,8 +137,10 @@ void handle_pick_action(void) {
 		text_layer_set_text(text_layer, "TWIST");
 		break;
 	default:
-		break;
+		return;
 	}
-	//Start Timer
+	//haptic feedback for new action
+	vibes_short_pulse();
+	//(re)start Timer
 	timer = app_timer_register(time_interval, timer_callback, NULL);
 }
