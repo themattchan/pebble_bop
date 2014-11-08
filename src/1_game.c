@@ -1,12 +1,12 @@
 #include <pebble.h>
-#include "bop.h"
+#include "1_game.h"
 
 static Window *window;
 static TextLayer *text_layer;
 static AppTimer *timer;
 
 static int randInt = -1;
-	
+
 int count = 0;
 double time_interval = 5000;
 
@@ -61,7 +61,7 @@ static void window_unload(Window *window) {
 	text_layer_destroy(text_layer);
 }
 
-static void bob_init(void) {
+void bop_init(void) {
 	window = window_create();
 	window_set_click_config_provider(window, click_config_provider);
 	window_set_window_handlers(window, (WindowHandlers) {
@@ -74,7 +74,7 @@ static void bob_init(void) {
 	accel_tap_service_subscribe(accel_tap_handler);
 }
 
-static void bob_deinit(void) {
+void bop_deinit(void) {
 	window_destroy(window);
 	accel_tap_service_unsubscribe();
 }
@@ -149,7 +149,7 @@ void handle_pick_action(void) {
 void handle_check(void) {
 	if(mAction == mGesture){ //success
 		count++;
-		timer_interval-=500;
+		time_interval-=500;
 		mState = pick_action;
 	} else { //fail
 		mState = end;

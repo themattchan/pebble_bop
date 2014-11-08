@@ -1,12 +1,12 @@
 #include <pebble.h>
-#include "bop.h"
+#include "1_game.h"
 
 static void init(void) {
 	bop_init();
 }
 
-static viod deinit(void) {
-	bob_deinit();
+static void deinit(void) {
+	bop_deinit();
 }
 
 int main(void) {

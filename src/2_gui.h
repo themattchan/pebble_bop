@@ -1,5 +1,7 @@
+#include <pebble.h>
+
 /* Function: createLayer
- * Creates a layer with the bounds of the screen to display an image 
+ * Creates a layer with the bounds of the screen to display an image
  * Param: window - the window of the app
  * Returns: a bitmap layer for displaying images
  */
