@@ -42,8 +42,8 @@ static void window_load(Window *window) {
 	GRect bounds = layer_get_bounds(window_layer);
 
 	text_layer = text_layer_create((GRect) {
-			.origin = { 0, 72 },
-			.size = { bounds.size.w, 20 }
+			.origin = { 0, 60 },
+			.size = { bounds.size.w, 40 }
 	});
 	//set text attributes
 	text_layer_set_text(text_layer, "START");
@@ -83,7 +83,7 @@ static void deinit(void) {
 void handle_init(void) {
 	// Passing 0 to subscribe sets up the accelerometer for peeking
 	accel_data_service_subscribe (0, NULL);// (ACCEL_SAMPLING_25HZ, accel_data_handler); datalog
-	
+
 	// Start data logging session
 	//my_data_log = data_logging_create(0, DATA_LOGGING_BYTE_ARRAY, sizeof(AccelData), true); dataloghere
 }
@@ -97,7 +97,7 @@ void accel_data_handler(AccelData *data, uint32_t num_samples) {
 
 void handle_deinit(void) {
 	accel_data_service_unsubscribe();
-	
+
 	//data_logging_finish(my_data_log); dataloghere
 }
 
@@ -129,7 +129,7 @@ void state(void) {
 
 void handle_end(void) {
 	char score[sizeof(int)];
-	snprintf(score, sizeof(int), "%d", count); 
+	snprintf(score, sizeof(int), "%d", count);
 	text_layer_set_text(text_layer, score);
 }
 
@@ -167,16 +167,16 @@ void handle_pick_action(void) {
 
 void handle_check(void) {
 	AccelData data;
-	accel_service_peek(&data); 
-	
+	accel_service_peek(&data);
+
 	int x = data.x; //abs(data.x*ACCEL_RATIO);
 	int y = data.y; //abs(data.y*ACCEL_RATIO);
 	int z = data.z; //abs(data.z*ACCEL_RATIO);
-	
+
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "x: %d", x);
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "x: %d", y);
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "x: %d", z);
-	
+
 	/*
 	if ( x>0 && y==0 && z==0) {
 		text_layer_set_text(text_layer, "SUCCESS");
@@ -185,8 +185,8 @@ void handle_check(void) {
 	} else {
 		text_layer_set_text(text_layer, "FAILURE");
 	}*/
-	
-	
+
+
 	mState = pick_action;
 	state();
 }
