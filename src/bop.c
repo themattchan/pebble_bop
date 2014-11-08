@@ -2,6 +2,9 @@
 
 static Window *window;
 static TextLayer *text_layer;
+static AppTimer *timer;
+
+double time_interval = 0.0;
 
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
   text_layer_set_text(text_layer, "Select");
@@ -48,6 +51,12 @@ static void init(void) {
   });
   const bool animated = true;
   window_stack_push(window, animated);
+  
+  //Start Accel Data Service
+  handle_init();
+  
+  //Start Timer
+  timer = app_timer_register(time_interval, timer_callback, NULL);
 }
 
 static void deinit(void) {
@@ -76,3 +85,12 @@ void handle_init(void) {
 void handle_deinit(void) {
   accel_data_service_unsubscribe();
 }
+
+static void timer_callback(void *data) {
+  //Insert Check State Here
+  
+  //Resets Timer
+  timer = app_timer_register(time_interval, timer_callback, NULL);
+}
+
+
