@@ -152,17 +152,22 @@ void handle_check(void) {
 	AccelData data;
 	accel_service_peek(&data); 
 	
-	int x = abs(data.x*ACCEL_RATIO);
-	int y = abs(data.y*ACCEL_RATIO);
-	int z = abs(data.z*ACCEL_RATIO);
-	
+	int x = data.x; //abs(data.x*ACCEL_RATIO);
+	int y = data.x; //abs(data.y*ACCEL_RATIO);
+	int z = data.x; //abs(data.z*ACCEL_RATIO);
+	/*
 	if ( x>0 && y==0 && z==0) {
 		text_layer_set_text(text_layer, "SUCCESS");
 		//mState = update;
 		//state();
 	} else {
 		text_layer_set_text(text_layer, "FAILURE");
-	}
+	}*/
+	
+	printf("xyz: %d %d %d \n\n", x, y, z);
+	
+	mState = pick_action;
+	state();
 }
 
 static void timer_callback(void *data) {
