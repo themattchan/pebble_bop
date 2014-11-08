@@ -23,13 +23,8 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 }
 
 /* Need implementations for unused handlers */
-static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
-	/* text_layer_set_text(text_layer, "Up"); */
-}
-
-static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
-	/* text_layer_set_text(text_layer, "Down"); */
-}
+static void up_click_handler(ClickRecognizerRef recognizer, void *context) {}
+static void down_click_handler(ClickRecognizerRef recognizer, void *context) {}
 
 static void click_config_provider(void *context) {
 	window_single_click_subscribe(BUTTON_ID_SELECT, select_click_handler);
@@ -44,7 +39,7 @@ static void window_load(Window *window) {
 	text_layer = text_layer_create((GRect) {
 			.origin = { 0, 60 },
 			.size = { bounds.size.w, 40 }
-	});
+		});
 	//set text attributes
 	text_layer_set_text(text_layer, "START");
 	text_layer_set_text_color(text_layer, GColorBlack);
@@ -66,8 +61,8 @@ static void init(void) {
 	window_set_click_config_provider(window, click_config_provider);
 	window_set_window_handlers(window, (WindowHandlers) {
 			.load = window_load,
-			.unload = window_unload
-	});
+				.unload = window_unload
+				});
 	const bool animated = true;
 	window_stack_push(window, animated);
 
@@ -90,9 +85,9 @@ void handle_init(void) {
 
 //Send data log of accelerometer data
 /*
-void accel_data_handler(AccelData *data, uint32_t num_samples) {
-	DataLoggingResult r = data_logging_log(my_data_log, data, num_samples); dataloghere
-}*/
+  void accel_data_handler(AccelData *data, uint32_t num_samples) {
+  DataLoggingResult r = data_logging_log(my_data_log, data, num_samples); dataloghere
+  }*/
 
 
 void handle_deinit(void) {
@@ -143,17 +138,21 @@ void handle_update(void) {
 }
 
 void handle_pick_action(void) {
-	if (mAction == none)
+	static int randInt = -1;
+	if (randInt == -1)
 		srand(time(NULL));
-	mAction = rand()%3;
-	switch (mAction) {
+	randInt = rand()%3;
+	switch (randInt) {
 	case bop:
+		mAction = bop;
 		text_layer_set_text(text_layer, "BOP");
 		break;
 	case pull:
+		mAction = pull;
 		text_layer_set_text(text_layer, "PULL");
 		break;
 	case twist:
+		mAction = twist;
 		text_layer_set_text(text_layer, "TWIST");
 		break;
 	default:
@@ -178,13 +177,13 @@ void handle_check(void) {
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "x: %d", z);
 
 	/*
-	if ( x>0 && y==0 && z==0) {
-		text_layer_set_text(text_layer, "SUCCESS");
-		//mState = update;
-		//state();
-	} else {
-		text_layer_set_text(text_layer, "FAILURE");
-	}*/
+	  if ( x>0 && y==0 && z==0) {
+	  text_layer_set_text(text_layer, "SUCCESS");
+	  //mState = update;
+	  //state();
+	  } else {
+	  text_layer_set_text(text_layer, "FAILURE");
+	  }*/
 
 
 	mState = pick_action;
@@ -192,6 +191,6 @@ void handle_check(void) {
 }
 
 static void timer_callback(void *data) {
-		mState = check;
-		state();
+	mState = check;
+	state();
 }
