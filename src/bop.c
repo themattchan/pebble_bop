@@ -139,6 +139,8 @@ void handle_pick_action(void) {
 	default:
 		return;
 	}
+	//turn on backlight for action instr
+	light_enable_interaction();
 	//haptic feedback for new action
 	vibes_short_pulse();
 	//(re)start Timer
