@@ -1,4 +1,4 @@
-#include <pebble.h>
+#inc1lude <pebble.h>
 #include "1_game.h"
 #include "2_gui.h"
 
@@ -40,11 +40,11 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 	if (mState == start) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: start > pick_action");
 		mState = pick_action;
-		text_layer_set_text(text_layer, "3");
+		vibes_short_pulse();
 		psleep(1000);
-		text_layer_set_text(text_layer, "2");
+		vibes_short_pulse();
 		psleep(1000); 
-		text_layer_set_text(text_layer, "1");
+		vibes_short_pulse();
 		psleep(1000); 
 		state();
 	} else if (mState == end) {
@@ -212,17 +212,11 @@ void handle_pick_action(void) {
 void handle_check(void) {
 	if(mAction == mGesture){ //success
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "check: success, state > pick_action");
-		deleteImage(curr_img);
-		curr_img = createImage(RESOURCE_ID_CORRECT);
-		displayImage(bitmap_layer, curr_img);
 		count++;
 		time_interval*=0.9;
 		mState = pick_action;
 	} else { //fail
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "check: fail, state > end");
-		deleteImage(curr_img);
-		curr_img = createImage(RESOURCE_ID_WRONG);
-		displayImage(bitmap_layer, curr_img);
 		mState = end;
 	}
 	state();
