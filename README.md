@@ -11,11 +11,9 @@ Press the up button to start practice mode, down button to exit practice mode.
 
 Do the action prompted. Prompts become faster each round. When you lose, your score is displayed.
 
-Bop = up/down
-
-Pull = left/right
-
-Twist = rotate wrist
+- Bop = up/down
+- Pull = left/right
+- Twist = rotate wrist
 
 ## Install
 
