@@ -17,6 +17,23 @@ ACTION mGesture = none;			/* Action that user inputs */
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {}
 static void down_click_handler(ClickRecognizerRef recognizer, void *context) {}
 
+/* START WITH MIDDLE BUTTON PUSH */
+static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
+	if (mState == start) {
+		mState = pick_action;
+		state();
+	} else if (mState == end) {
+		mState = start;
+		mAction = none;
+		mGesture = none;
+
+		count = 0;
+		time_interval = 5000;
+
+		text_layer_set_text(text_layer, "START");
+	}
+}
+
 static void click_config_provider(void *context) {
 	window_single_click_subscribe(BUTTON_ID_SELECT, select_click_handler);
 	window_single_click_subscribe(BUTTON_ID_UP, up_click_handler);
@@ -63,28 +80,11 @@ void bop_init(void) {
 }
 
 void bop_deinit(void) {
-	window_destroy(window);
 	accel_tap_service_unsubscribe();
+	window_destroy(window);
 }
 
 /* GAME LOGIC */
-/* START WITH MIDDLE BUTTON PUSH */
-static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
-	if (mState == start) {
-		mState = pick_action;
-		state();
-	} else if (mState == end) {
-		mState = start;
-		mAction = none;
-		mGesture = none;
-
-		count = 0;
-		time_interval = 5000;
-
-		text_layer_set_text(text_layer, "START");
-	}
-}
-
 /* State machine control flow */
 void state(void) {
 	switch (mState) {
