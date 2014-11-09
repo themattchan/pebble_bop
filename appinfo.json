@@ -18,6 +18,21 @@
             "name": "LOGO",
             "file": "images/logo.png",
             "menuIcon": true
+        },
+        {
+            "type": "png",
+            "name": "BOP",
+            "file": "images/bop.png"
+        },
+        {
+            "type": "png",
+            "name": "TWIST",
+            "file": "images/twist.png"
+        },
+        {
+            "type": "png",
+            "name": "PULL",
+            "file": "images/pull.png"
         }
     ]
   }
