@@ -78,8 +78,8 @@ static void window_load(Window *window) {
 	//bitmap_layer = createLayer(bounds);
 	// set text attributes
 	text_layer_set_text(text_layer, "START");
-	curr_img = createImage(RESOURCE_ID_TITLE);
-	displayImage(bitmap_layer, curr_img);
+	//curr_img = createImage(RESOURCE_ID_TITLE);
+	//displayImage(bitmap_layer, curr_img);
 	text_layer_set_text_color(text_layer, GColorBlack);
 	text_layer_set_text_alignment(text_layer, GTextAlignmentCenter);
 	text_layer_set_font(text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
