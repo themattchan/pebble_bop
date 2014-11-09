@@ -1,6 +1,8 @@
 #include <pebble.h>
 
-typedef enum {start, pick_action, check, end, practice} STATE;
+#define time_delay 100
+
+typedef enum {start, pick_action, check, end, practice, wait} STATE;
 typedef enum {none, bop, pull, twist} ACTION;
 
 void state(void);
