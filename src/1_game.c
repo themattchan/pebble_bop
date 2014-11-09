@@ -4,6 +4,7 @@
 static Window *window;
 static TextLayer *text_layer;
 static AppTimer *timer;
+static void timer_callback(void *data);
 
 int count = 0;
 double time_interval = 5000;
