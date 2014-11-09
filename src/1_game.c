@@ -104,15 +104,15 @@ void accel_tap_handler(AccelAxisType axis, int32_t direction) {
 		switch (axis) {
 		case ACCEL_AXIS_X:
 			mGesture = pull;
-			text_layer_set_text(text_layer, "pull!");
+			text_layer_set_text(text_layer, "pulled");
 			break;
 		case ACCEL_AXIS_Y:
 			mGesture = twist;
-			text_layer_set_text(text_layer, "twist!");
+			text_layer_set_text(text_layer, "twisted");
 			break;
 		case ACCEL_AXIS_Z:
 			mGesture = bop;
-			text_layer_set_text(text_layer, "bop!");
+			text_layer_set_text(text_layer, "bopped");
 			break;
 		default:
 			break;
