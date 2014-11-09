@@ -1,6 +1,6 @@
 #include <pebble.h>
 
-typedef enum {start, pick_action, check, end} STATE;
+typedef enum {start, pick_action, check, end, practice} STATE;
 typedef enum {none, bop, pull, twist} ACTION;
 
 void state(void);

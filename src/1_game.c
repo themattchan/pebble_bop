@@ -15,8 +15,19 @@ ACTION mAction = none;			/* Action we want */
 ACTION mGesture = none;			/* Action that user inputs */
 
 /* Need implementations for unused handlers */
-static void up_click_handler(ClickRecognizerRef recognizer, void *context) {}
-static void down_click_handler(ClickRecognizerRef recognizer, void *context) {}
+static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
+	if (mState == start){
+		text_layer_text_set(text_layer, "PRACTICE");
+		mState == practice;
+	}
+}
+
+static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
+	if (mState == practice) {
+		text_layer_text_set(text_layer, "START");
+		mState == start;
+	}
+}
 
 /* START WITH MIDDLE BUTTON PUSH */
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
@@ -116,19 +127,21 @@ void state(void) {
 }
 
 void accel_tap_handler(AccelAxisType axis, int32_t direction) {
-	if (mState == pick_action) {
-		APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event: state is pick_action");
+	if (mState == pick_action || mState == practice) {
 		switch (axis) {
 		case ACCEL_AXIS_X:
-			mGesture = pull;
+			if (mState == pick_action) mGesture = pull;
+			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event: pulled");
 			text_layer_set_text(text_layer, "pulled");
 			break;
 		case ACCEL_AXIS_Y:
-			mGesture = twist;
+			if (mState == pick_action) mGesture = twist;
+			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event: twisted");
 			text_layer_set_text(text_layer, "twisted");
 			break;
 		case ACCEL_AXIS_Z:
-			mGesture = bop;
+			if (mState == pick_action) mGesture = bop;
+			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event: bopped");
 			text_layer_set_text(text_layer, "bopped");
 			break;
 		default:
