@@ -73,7 +73,7 @@ static void window_load(Window *window) {
 			.origin = { 0, 60 },
 			.size = { bounds.size.w, 40 }
 		});
-	createLayer(bounds);
+	bitmap_layer = createLayer(bounds);
 	// set text attributes
 	text_layer_set_text(text_layer, "START");
 	text_layer_set_text_color(text_layer, GColorBlack);
