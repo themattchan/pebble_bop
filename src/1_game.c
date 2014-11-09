@@ -1,4 +1,4 @@
-//#include <pebble.h>
+#include <pebble.h>
 #include "1_game.h"
 
 static Window *window;
@@ -14,18 +14,19 @@ STATE mState = start;
 ACTION mAction = none;			/* Action we want */
 ACTION mGesture = none;			/* Action that user inputs */
 
-/* Need implementations for unused handlers */
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
 	if (mState == start){
-		text_layer_text_set(text_layer, "PRACTICE");
-		mState == practice;
+		text_layer_set_text(text_layer, "PRACTICE");
+		mState = practice;
 	}
 }
 
 static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
 	if (mState == practice) {
-		text_layer_text_set(text_layer, "START");
-		mState == start;
+		text_layer_set_text(text_layer, "START");
+		mState = start;
+		mGesture = none;
+
 	}
 }
 
@@ -47,8 +48,9 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 		time_interval = 5000;
 
 		text_layer_set_text(text_layer, "START");
+	} else {
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: not in valid state");
 	}
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "select: not in valid state");
 }
 
 static void click_config_provider(void *context) {
@@ -127,24 +129,28 @@ void state(void) {
 }
 
 void accel_tap_handler(AccelAxisType axis, int32_t direction) {
-	if (mState == pick_action || mState == practice) {
+	if (mState == pick_action|| mState == practice) {
 		switch (axis) {
 		case ACCEL_AXIS_X:
 			if (mState == pick_action) mGesture = pull;
 			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event: pulled");
 			text_layer_set_text(text_layer, "pulled");
+			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event = pulled");
 			break;
 		case ACCEL_AXIS_Y:
 			if (mState == pick_action) mGesture = twist;
 			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event: twisted");
 			text_layer_set_text(text_layer, "twisted");
+			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event = twisted");
 			break;
 		case ACCEL_AXIS_Z:
 			if (mState == pick_action) mGesture = bop;
 			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event: bopped");
 			text_layer_set_text(text_layer, "bopped");
+			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event = bopped");
 			break;
 		default:
+			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event error");
 			break;
 		}
 	}
@@ -156,23 +162,23 @@ void handle_pick_action(void) {
 		srand(time(NULL));
 	randInt = rand() % 3;
 	switch (randInt) {
-	case bop:
+	case 0:
 		mAction = bop;
 		text_layer_set_text(text_layer, "BOP");
-		APP_LOG(APP_LOG_LEVEL_DEBUG, "pick_action: bop");
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "rand_action: bop");
 		break;
-	case pull:
+	case 1:
 		mAction = pull;
 		text_layer_set_text(text_layer, "PULL");
-		APP_LOG(APP_LOG_LEVEL_DEBUG, "pick_action: pull");
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "rand_action: pull");
 		break;
-	case twist:
+	case 2:
 		mAction = twist;
 		text_layer_set_text(text_layer, "TWIST");
-		APP_LOG(APP_LOG_LEVEL_DEBUG, "pick_action: twist");
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "rand_action: twist");
 		break;
 	default:
-		APP_LOG(APP_LOG_LEVEL_DEBUG, "pick_action: error");
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "rand_action: error");
 		return;
 	}
 	// haptic feedback for new action
@@ -197,11 +203,11 @@ void handle_check(void) {
 
 
 void handle_end(void) {
-	/* char score[sizeof(int)]; */
-	/* snprintf(score, sizeof(int), "%d", count); */
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "made it to end");
+	static char buf[sizeof(int)];
+	snprintf(buf, sizeof(buf), "%d", count);
 
-	text_layer_set_text(text_layer, "END");
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "made it to end. Score: %d", count);
+	text_layer_set_text(text_layer, buf);
 
 	vibes_double_pulse();
 }
