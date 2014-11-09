@@ -1,6 +1,5 @@
 #include <pebble.h>
-#include "1_game.h"
-#include "2_gui.h"
+#include "game.h"
 
 static Window *window;
 static TextLayer *text_layer;
@@ -14,24 +13,23 @@ static void delay_callback(void *data);
 int count = 0;
 int time_interval = 5000;
 
-
 STATE mState = start;
 
-ACTION mAction = none;			/* Action we want */
+ACTION mAction = none;			/* Action the thing auto generates */
 ACTION mGesture = none;			/* Action that user inputs */
 
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
 	/*if (mState == start){
-		text_layer_set_text(text_layer, "PRACTICE");
-		mState = practice;
+	text_layer_set_text(text_layer, "PRACTICE");
+	mState = practice;
 	}*/
 }
 
 static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
 	/*if (mState == practice) {
-		text_layer_set_text(text_layer, "START");
-		mState = start;
-		mGesture = none;
+	text_layer_set_text(text_layer, "START");
+	mState = start;
+	mGesture = none;
 	}*/
 }
 
@@ -40,14 +38,10 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 	if (mState == start) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: start > pick_action");
 		mState = pick_action;
-		vibes_short_pulse();
-		psleep(1000);
-		vibes_short_pulse();
-		psleep(1000); 
-		vibes_short_pulse();
-		psleep(1000); 
+		deleteImage(curr_img);
 		state();
-	} else if (mState == end) {
+	}
+	else if (mState == end) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: end > start");
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: action > none");
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: gesture > none");
@@ -61,7 +55,8 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 		//text_layer_set_text(text_layer, "START");
 		curr_img = createImage(RESOURCE_ID_TITLE);
 		displayImage(bitmap_layer, curr_img);
-	} else {
+	}
+	else {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: not in valid state");
 	}
 }
@@ -78,9 +73,9 @@ static void window_load(Window *window) {
 	GRect bounds = layer_get_bounds(window_layer);
 
 	text_layer = text_layer_create((GRect) {
-			.origin = { 0, 60 },
+		.origin = { 0, 60 },
 			.size = { bounds.size.w, 40 }
-		});
+	});
 	bitmap_layer = createLayer(bounds);
 	// set text attributes
 	//text_layer_set_text(text_layer, "START");
@@ -92,7 +87,6 @@ static void window_load(Window *window) {
 	// set background color
 	text_layer_set_background_color(text_layer, GColorClear);
 	layer_add_child(window_layer, text_layer_get_layer(text_layer));
-	layer_add_child(window_layer, bitmap_layer_get_layer(bitmap_layer));
 	// turn backlight on
 	light_enable(true);
 }
@@ -107,7 +101,7 @@ void bop_init(void) {
 	window = window_create();
 	window_set_click_config_provider(window, click_config_provider);
 	window_set_window_handlers(window, (WindowHandlers) {
-			.load = window_load,
+		.load = window_load,
 			.unload = window_unload
 	});
 	const bool animated = true;
@@ -141,23 +135,20 @@ void state(void) {
 }
 
 void accel_tap_handler(AccelAxisType axis, int32_t direction) {
-	if (mState == pick_action|| mState == practice) {
+	if (mState == pick_action || mState == practice) {
 		switch (axis) {
 		case ACCEL_AXIS_X:
 			if (mState == pick_action) mGesture = pull;
-			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event: pulled");
-			//text_layer_set_text(text_layer, "pulled");
+			text_layer_set_text(text_layer, "pulled");
 			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event = pulled");
 			break;
 		case ACCEL_AXIS_Y:
 			if (mState == pick_action) mGesture = twist;
-			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event: twisted");
 			text_layer_set_text(text_layer, "twisted");
 			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event = twisted");
 			break;
 		case ACCEL_AXIS_Z:
 			if (mState == pick_action) mGesture = bop;
-			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event: bopped");
 			text_layer_set_text(text_layer, "bopped");
 			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event = bopped");
 			break;
@@ -176,23 +167,17 @@ void handle_pick_action(void) {
 	switch (randInt) {
 	case 0:
 		mAction = bop;
-		//text_layer_set_text(text_layer, "BOP");
-		curr_img = createImage(RESOURCE_ID_BOP);
-		displayImage(bitmap_layer, curr_img);
+		text_layer_set_text(text_layer, "BOP");
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "rand_action: bop");
 		break;
 	case 1:
 		mAction = pull;
-		//text_layer_set_text(text_layer, "PULL");
-		curr_img = createImage(RESOURCE_ID_PULL);
-		displayImage(bitmap_layer, curr_img);
+		text_layer_set_text(text_layer, "PULL");
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "rand_action: pull");
 		break;
 	case 2:
 		mAction = twist;
-		//text_layer_set_text(text_layer, "TWIST");
-		curr_img = createImage(RESOURCE_ID_TWIST);
-		displayImage(bitmap_layer, curr_img);
+		text_layer_set_text(text_layer, "TWIST");
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "rand_action: twist");
 		break;
 	default:
@@ -204,18 +189,19 @@ void handle_pick_action(void) {
 	// (re)start Timer
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "pick_action: timer started");
 	timer = app_timer_register(time_interval, timer_callback, NULL);
-	
+
 	mState = wait;
 	delay = app_timer_register(time_delay, delay_callback, NULL);
 }
 
 void handle_check(void) {
-	if(mAction == mGesture){ //success
+	if (mAction == mGesture){ //success
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "check: success, state > pick_action");
 		count++;
-		time_interval*=0.9;
+		time_interval *= 0.9;
 		mState = pick_action;
-	} else { //fail
+	}
+	else { //fail
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "check: fail, state > end");
 		mState = end;
 	}
@@ -224,7 +210,6 @@ void handle_check(void) {
 
 
 void handle_end(void) {
-	deleteImage(curr_img);
 	static char buf[sizeof(int)];
 	snprintf(buf, sizeof(buf), "%d", count);
 
