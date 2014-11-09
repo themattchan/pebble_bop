@@ -14,5 +14,3 @@ void accel_tap_handler(AccelAxisType axis, int32_t direction);
 
 void bop_init(void);
 void bop_deinit(void);
-
-static void delay_callback(void *data)

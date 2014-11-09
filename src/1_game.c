@@ -6,6 +6,7 @@ static TextLayer *text_layer;
 static AppTimer *timer;
 static AppTimer *delay;
 static void timer_callback(void *data);
+static void delay_callback(void *data);
 
 int count = 0;
 int time_interval = 5000;
