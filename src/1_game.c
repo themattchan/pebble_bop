@@ -90,6 +90,7 @@ void bop_deinit(void) {
 }
 
 static void timer_callback(void *data) {
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "timer: state > check");
 	mState = check;
 	state();
 }
@@ -180,35 +181,13 @@ void handle_check(void) {
 	state();
 }
 
-<<<<<<< HEAD
-static void timer_callback(void *data) {
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "timer: state > check");
-	mState = check;
-	state();
-}
 
-=======
->>>>>>> sdsa
 void handle_end(void) {
 	/* char score[sizeof(int)]; */
 	/* snprintf(score, sizeof(int), "%d", count); */
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "made it to end");
-	
+
 	text_layer_set_text(text_layer, "END");
 
 	vibes_double_pulse();
 }
-
-/* static void init(void) { */
-/* 	bop_init(); */
-/* } */
-
-/* static void deinit(void) { */
-/* 	bop_deinit(); */
-/* } */
-
-/* int main(void) { */
-/* 	init(); */
-/* 	app_event_loop(); */
-/* 	deinit(); */
-/* } */
