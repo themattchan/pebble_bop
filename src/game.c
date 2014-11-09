@@ -1,5 +1,6 @@
 #include <pebble.h>
 #include "game.h"
+#include "gui.h"
 
 static Window *window;
 static TextLayer *text_layer;
