@@ -7,7 +7,7 @@
  */
 BitmapLayer* createLayer(GRect bounds) {
 	BitmapLayer* layer = bitmap_layer_create(bounds);
-	bitmap_layer_set_alignment(layer, GAlign);
+	bitmap_layer_set_alignment(layer, GAlignCenter);
 	return layer;
 }
 
