@@ -4,17 +4,17 @@
 static Window *window;
 static TextLayer *text_layer;
 static AppTimer *timer;
+static AppTimer *delay;
 static void timer_callback(void *data);
 
 int count = 0;
-double time_interval = 5000;
+int time_interval = 5000;
 
 STATE mState = start;
 
 ACTION mAction = none;			/* Action we want */
 ACTION mGesture = none;			/* Action that user inputs */
 
-/* Need implementations for unused handlers */
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
 	if (mState == start){
 		text_layer_text_set(text_layer, "PRACTICE");
@@ -101,12 +101,6 @@ void bop_deinit(void) {
 	window_destroy(window);
 }
 
-static void timer_callback(void *data) {
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "timer: state > check");
-	mState = check;
-	state();
-}
-
 /* GAME LOGIC */
 /* State machine control flow */
 void state(void) {
@@ -180,13 +174,16 @@ void handle_pick_action(void) {
 	// (re)start Timer
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "pick_action: timer started");
 	timer = app_timer_register(time_interval, timer_callback, NULL);
+	
+	mState = delay;
+	delay = app_timer_register(DELAY, delay_callback, NULL);
 }
 
 void handle_check(void) {
 	if(mAction == mGesture){ //success
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "check: success, state > pick_action");
 		count++;
-		time_interval-=500;
+		time_interval*=0.9;
 		mState = pick_action;
 	} else { //fail
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "check: fail, state > end");
@@ -204,4 +201,14 @@ void handle_end(void) {
 	text_layer_set_text(text_layer, "END");
 
 	vibes_double_pulse();
+}
+
+static void delay_callback(void *data) {
+	mState = pick_action;
+}
+
+static void timer_callback(void *data) {
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "timer: state > check");
+	mState = check;
+	state();
 }
