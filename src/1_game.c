@@ -147,7 +147,6 @@ void accel_tap_handler(AccelAxisType axis, int32_t direction) {
 			if (mState == pick_action) mGesture = pull;
 			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event: pulled");
 			//text_layer_set_text(text_layer, "pulled");
-			
 			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event = pulled");
 			break;
 		case ACCEL_AXIS_Y:
@@ -224,6 +223,7 @@ void handle_check(void) {
 		displayImage(bitmap_layer, curr_img);
 		mState = end;
 	}
+	psleep(1000);
 	state();
 }
 
