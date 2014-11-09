@@ -39,7 +39,6 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 	if (mState == start) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: start > pick_action");
 		mState = pick_action;
-		createLayer(window);
 		state();
 	} else if (mState == end) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: end > start");
@@ -74,6 +73,7 @@ static void window_load(Window *window) {
 			.origin = { 0, 60 },
 			.size = { bounds.size.w, 40 }
 		});
+	createLayer(bounds);
 	// set text attributes
 	text_layer_set_text(text_layer, "START");
 	text_layer_set_text_color(text_layer, GColorBlack);
