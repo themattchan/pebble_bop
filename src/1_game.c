@@ -40,6 +40,7 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: start > pick_action");
 		mState = pick_action;
 		displayImage(bitmap_layer, NULL);
+		deleteImage(curr_img);
 		text_layer_set_text(text_layer, "3");
 		psleep(1000);
 		text_layer_set_text(text_layer, "2");
@@ -54,7 +55,9 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 		mState = start;
 		mAction = none;
 		mGesture = none;
-		deleteLayer(bitmap_layer);
+		if (bitmap_layer != NULL) {
+			deleteLayer(bitmap_layer);
+		}
 
 		count = 0;
 		time_interval = 5000;
