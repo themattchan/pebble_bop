@@ -47,7 +47,7 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 		mState = start;
 		mAction = none;
 		mGesture = none;
-		deleteLayer();
+		deleteLayer(bitmap_layer);
 
 		count = 0;
 		time_interval = 5000;
@@ -166,21 +166,21 @@ void handle_pick_action(void) {
 	case 0:
 		mAction = bop;
 		//text_layer_set_text(text_layer, "BOP");
-		curr_img = createImage("RESOURCE_ID_BOP");
+		curr_img = createImage(RESOURCE_ID_BOP);
 		displayImage(bitmap_layer, curr_img);
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "rand_action: bop");
 		break;
 	case 1:
 		mAction = pull;
 		//text_layer_set_text(text_layer, "PULL");
-		curr_img = createImage("RESOURCE_ID_PULL");
+		curr_img = createImage(RESOURCE_ID_PULL);
 		displayImage(bitmap_layer, curr_img);
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "rand_action: pull");
 		break;
 	case 2:
 		mAction = twist;
 		//text_layer_set_text(text_layer, "TWIST");
-		curr_img = createImage("RESOURCE_ID_TWIST");
+		curr_img = createImage(RESOURCE_ID_TWIST);
 		displayImage(bitmap_layer, curr_img);
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "rand_action: twist");
 		break;
@@ -202,7 +202,7 @@ void handle_check(void) {
 	if(mAction == mGesture){ //success
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "check: success, state > pick_action");
 		deleteImage(curr_img);
-		curr_img = createImage("RESOURCE_ID_CHECK");
+		curr_img = createImage(RESOURCE_ID_CHECK);
 		displayImage(bitmap_layer, curr_img);
 		count++;
 		time_interval*=0.9;
@@ -210,7 +210,7 @@ void handle_check(void) {
 	} else { //fail
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "check: fail, state > end");
 		deleteImage(curr_img);
-		curr_img = createImage("RESOURCE_ID_WRONG");
+		curr_img = createImage(RESOURCE_ID_WRONG);
 		displayImage(bitmap_layer, curr_img);
 		mState = end;
 	}
