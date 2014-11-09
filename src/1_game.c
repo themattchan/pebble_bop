@@ -82,7 +82,7 @@ static void window_load(Window *window) {
 	// set background color
 	text_layer_set_background_color(text_layer, GColorClear);
 	layer_add_child(window_layer, text_layer_get_layer(text_layer));
-	layer_add_child(text_layer_get_layer(text_layer), bitmap_layer_get_layer(bitmap_layer));
+	layer_add_child(window_layer, bitmap_layer_get_layer(bitmap_layer));
 	// turn backlight on
 	light_enable(true);
 }
