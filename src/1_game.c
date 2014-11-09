@@ -19,27 +19,27 @@ STATE mState = start;
 ACTION mAction = none;			/* Action we want */
 ACTION mGesture = none;			/* Action that user inputs */
 
-/*static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
-	if (mState == start){
+static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
+	/*if (mState == start){
 		text_layer_set_text(text_layer, "PRACTICE");
 		mState = practice;
-	}
+	}*/
 }
 
 static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
-	if (mState == practice) {
+	/*if (mState == practice) {
 		text_layer_set_text(text_layer, "START");
 		mState = start;
 		mGesture = none;
-	}
-}*/
+	}*/
+}
 
 /* START WITH MIDDLE BUTTON PUSH */
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 	if (mState == start) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: start > pick_action");
 		mState = pick_action;
-		for (int i = 3, i > 0, i--) {
+		for (int i = 3; i > 0; i--) {
 			static char buf[sizeof(int)];
 			snprintf(buf, sizeof(buf), "%d", i);
 			text_layer_set_text(text_layer, buf);
