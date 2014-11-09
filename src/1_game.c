@@ -17,15 +17,15 @@ ACTION mGesture = none;			/* Action that user inputs */
 
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
 	if (mState == start){
-		text_layer_text_set(text_layer, "PRACTICE");
-		mState == practice;
+		text_layer_set_text(text_layer, "PRACTICE");
+		mState = practice;
 	}
 }
 
 static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
 	if (mState == practice) {
-		text_layer_text_set(text_layer, "START");
-		mState == start;
+		text_layer_set_text(text_layer, "START");
+		mState = start;
 	}
 }
 
@@ -176,7 +176,7 @@ void handle_pick_action(void) {
 	timer = app_timer_register(time_interval, timer_callback, NULL);
 	
 	mState = delay;
-	delay = app_timer_register(DELAY, delay_callback, NULL);
+	delay = app_timer_register(time_delay, delay_callback, NULL);
 }
 
 void handle_check(void) {
