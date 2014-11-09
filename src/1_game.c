@@ -20,9 +20,13 @@ static void down_click_handler(ClickRecognizerRef recognizer, void *context) {}
 /* START WITH MIDDLE BUTTON PUSH */
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 	if (mState == start) {
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: start > pick_action");
 		mState = pick_action;
 		state();
 	} else if (mState == end) {
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: end > start");
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: action > none");
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: gesture > none");
 		mState = start;
 		mAction = none;
 		mGesture = none;
@@ -32,6 +36,7 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 
 		text_layer_set_text(text_layer, "START");
 	}
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "select: not in valid state");
 }
 
 static void click_config_provider(void *context) {
@@ -87,12 +92,16 @@ void bop_deinit(void) {
 /* GAME LOGIC */
 /* State machine control flow */
 void state(void) {
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "in state machine");
 	switch (mState) {
 	case pick_action:
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "machine: pick action");
 		handle_pick_action(); break;
 	case check:
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "machine: check");
 		handle_check(); break;
 	case end:
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "machine: end");
 		handle_end(); break;
 	default:
 		text_layer_set_text(text_layer, "ERROR"); break;
@@ -101,6 +110,7 @@ void state(void) {
 
 void accel_tap_handler(AccelAxisType axis, int32_t direction) {
 	if (mState == pick_action) {
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event: state is pick_action");
 		switch (axis) {
 		case ACCEL_AXIS_X:
 			mGesture = pull;
@@ -129,36 +139,44 @@ void handle_pick_action(void) {
 	case bop:
 		mAction = bop;
 		text_layer_set_text(text_layer, "BOP");
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "pick_action: bop");
 		break;
 	case pull:
 		mAction = pull;
 		text_layer_set_text(text_layer, "PULL");
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "pick_action: pull");
 		break;
 	case twist:
 		mAction = twist;
 		text_layer_set_text(text_layer, "TWIST");
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "pick_action: twist");
 		break;
 	default:
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "pick_action: error");
 		return;
 	}
 	// haptic feedback for new action
 	vibes_short_pulse();
 	// (re)start Timer
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "pick_action: timer started");
 	timer = app_timer_register(time_interval, timer_callback, NULL);
 }
 
 void handle_check(void) {
 	if(mAction == mGesture){ //success
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "check: success, state > pick_action");
 		count++;
 		time_interval-=500;
 		mState = pick_action;
 	} else { //fail
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "check: fail, state > end");
 		mState = end;
 	}
 	state();
 }
 
 static void timer_callback(void *data) {
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "timer: state > check");
 	mState = check;
 	state();
 }
@@ -166,6 +184,8 @@ static void timer_callback(void *data) {
 void handle_end(void) {
 	/* char score[sizeof(int)]; */
 	/* snprintf(score, sizeof(int), "%d", count); */
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "made it to end");
+	
 	text_layer_set_text(text_layer, "END");
 
 	vibes_double_pulse();
