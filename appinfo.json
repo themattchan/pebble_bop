@@ -43,6 +43,11 @@
             "type": "png",
             "name": "WRONG",
             "file": "images/wrong.png"
+        },
+        {
+            "type": "png",
+            "name": "TITLE",
+            "file": "images/title.png"
         }
     ]
   }
