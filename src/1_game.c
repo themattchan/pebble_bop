@@ -200,13 +200,11 @@ void handle_check(void) {
 
 
 void handle_end(void) {
-	char scoreTmp[sizeof(int)];
-	snprintf(scoreTmp, sizeof(int), "%d", count);
-	const char score[sizeof(int)];
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "made it to end. Score:");
-	APP_LOG(APP_LOG_LEVEL_DEBUG, score);
+	static char buf[sizeof(int)];
+	snprintf(buf, sizeof(buf), "%d", count);
 
-	text_layer_set_text(text_layer, score);
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "made it to end. Score: %d", count);
+	text_layer_set_text(text_layer, buf);
 
 	vibes_double_pulse();
 }
