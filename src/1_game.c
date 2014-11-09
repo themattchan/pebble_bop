@@ -212,6 +212,7 @@ void handle_pick_action(void) {
 void handle_check(void) {
 	if(mAction == mGesture){ //success
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "check: success, state > pick_action");
+		deleteImage(curr_img);
 		curr_img = createImage(RESOURCE_ID_CORRECT);
 		displayImage(bitmap_layer, curr_img);
 		count++;
@@ -219,11 +220,11 @@ void handle_check(void) {
 		mState = pick_action;
 	} else { //fail
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "check: fail, state > end");
+		deleteImage(curr_img);
 		curr_img = createImage(RESOURCE_ID_WRONG);
 		displayImage(bitmap_layer, curr_img);
 		mState = end;
 	}
-	psleep(1000);
 	state();
 }
 
