@@ -1,4 +1,4 @@
-#include <pebble.h>
+//#include <pebble.h>
 #include "1_game.h"
 
 static Window *window;
@@ -89,6 +89,11 @@ void bop_deinit(void) {
 	window_destroy(window);
 }
 
+static void timer_callback(void *data) {
+	mState = check;
+	state();
+}
+
 /* GAME LOGIC */
 /* State machine control flow */
 void state(void) {
@@ -175,12 +180,15 @@ void handle_check(void) {
 	state();
 }
 
+<<<<<<< HEAD
 static void timer_callback(void *data) {
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "timer: state > check");
 	mState = check;
 	state();
 }
 
+=======
+>>>>>>> sdsa
 void handle_end(void) {
 	/* char score[sizeof(int)]; */
 	/* snprintf(score, sizeof(int), "%d", count); */
@@ -190,3 +198,17 @@ void handle_end(void) {
 
 	vibes_double_pulse();
 }
+
+/* static void init(void) { */
+/* 	bop_init(); */
+/* } */
+
+/* static void deinit(void) { */
+/* 	bop_deinit(); */
+/* } */
+
+/* int main(void) { */
+/* 	init(); */
+/* 	app_event_loop(); */
+/* 	deinit(); */
+/* } */
