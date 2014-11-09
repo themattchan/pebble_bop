@@ -199,6 +199,7 @@ void handle_check(void) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "check: success, state > pick_action");
 		count++;
 		time_interval*=0.9;
+		mGesture = none;
 		mState = pick_action;
 	} else { //fail
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "check: fail, state > end");
