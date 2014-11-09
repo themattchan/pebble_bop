@@ -39,12 +39,12 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 	if (mState == start) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: start > pick_action");
 		mState = pick_action;
-		for (int i = 3; i > 0; i--) {
-			static char buf[sizeof(int)];
-			snprintf(buf, sizeof(buf), "%d", i);
-			text_layer_set_text(text_layer, buf);
-			timer = app_timer_register(time_interval, timer_callback, NULL);
-		}
+		text_layer_set_text(text_layer, "3");
+		timer = app_timer_register(1000, timer_callback, NULL);
+		text_layer_set_text(text_layer, "2");
+		timer = app_timer_register(1000, timer_callback, NULL);
+		text_layer_set_text(text_layer, "1");
+		timer = app_timer_register(1000, timer_callback, NULL);
 		state();
 	} else if (mState == end) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: end > start");
