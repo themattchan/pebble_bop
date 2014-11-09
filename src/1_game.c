@@ -39,6 +39,12 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 	if (mState == start) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: start > pick_action");
 		mState = pick_action;
+		for (int i = 3, i > 0, i--) {
+			static char buf[sizeof(int)];
+			snprintf(buf, sizeof(buf), "%d", i);
+			text_layer_set_text(text_layer, buf);
+			timer = app_timer_register(time_interval, timer_callback, NULL);
+		}
 		state();
 	} else if (mState == end) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: end > start");
@@ -206,17 +212,11 @@ void handle_pick_action(void) {
 void handle_check(void) {
 	if(mAction == mGesture){ //success
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "check: success, state > pick_action");
-		deleteImage(curr_img);
-		curr_img = createImage(RESOURCE_ID_CORRECT);
-		displayImage(bitmap_layer, curr_img);
 		count++;
 		time_interval*=0.9;
 		mState = pick_action;
 	} else { //fail
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "check: fail, state > end");
-		deleteImage(curr_img);
-		curr_img = createImage(RESOURCE_ID_WRONG);
-		displayImage(bitmap_layer, curr_img);
 		mState = end;
 	}
 	state();
