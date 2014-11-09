@@ -55,8 +55,8 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 		mState = start;
 		mAction = none;
 		mGesture = none;
-		if (bitmap_layer != NULL) {
-			deleteLayer(bitmap_layer);
+		if (curr_img != NULL) {
+			deleteImage(curr_img);
 		}
 
 		count = 0;
