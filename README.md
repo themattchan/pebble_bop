@@ -5,7 +5,9 @@ Bop-it for the Pebble watch. HackSC 2014.
 
 ## Instructions
 
-Press the select (middle) button to start.
+Press the select (middle) button to start the game. 
+
+Press the up button to start practice mode, down button to exit practice mode.
 
 Do the action prompted. Prompts become faster each round. When you lose, your score is displayed.
 
