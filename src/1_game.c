@@ -176,7 +176,7 @@ void handle_pick_action(void) {
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "pick_action: timer started");
 	timer = app_timer_register(time_interval, timer_callback, NULL);
 	
-	mState = delay;
+	mState = wait;
 	delay = app_timer_register(time_delay, delay_callback, NULL);
 }
 
