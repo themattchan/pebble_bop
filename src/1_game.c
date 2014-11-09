@@ -224,6 +224,7 @@ void handle_check(void) {
 
 
 void handle_end(void) {
+	deleteImage(curr_img);
 	static char buf[sizeof(int)];
 	snprintf(buf, sizeof(buf), "%d", count);
 
