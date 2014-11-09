@@ -1,4 +1,4 @@
-#inc1lude <pebble.h>
+#include <pebble.h>
 #include "1_game.h"
 #include "2_gui.h"
 
