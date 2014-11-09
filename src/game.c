@@ -3,6 +3,8 @@
 
 static Window *window;
 static TextLayer *text_layer;
+static BitmapLayer *bitmap_layer;
+static GBitmap *title;
 static AppTimer *timer;
 static AppTimer *delay;
 static void timer_callback(void *data);
@@ -17,18 +19,18 @@ ACTION mAction = none;			/* Action the thing auto generates */
 ACTION mGesture = none;			/* Action that user inputs */
 
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
-	if (mState == start){
+	/*if (mState == start){
 		text_layer_set_text(text_layer, "PRACTICE");
 		mState = practice;
-	}
+	}*/
 }
 
 static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
-	if (mState == practice) {
+	/*if (mState == practice) {
 		text_layer_set_text(text_layer, "START");
 		mState = start;
 		mGesture = none;
-	}
+	}*/
 }
 
 /* START WITH MIDDLE BUTTON PUSH */
@@ -36,6 +38,7 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 	if (mState == start) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: start > pick_action");
 		mState = pick_action;
+		deleteImage(curr_img);
 		state();
 	} else if (mState == end) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: end > start");
@@ -48,7 +51,9 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 		count = 0;
 		time_interval = 5000;
 
-		text_layer_set_text(text_layer, "START");
+		//text_layer_set_text(text_layer, "START");
+		curr_img = createImage(RESOURCE_ID_TITLE);
+		displayImage(bitmap_layer, curr_img);
 	} else {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: not in valid state");
 	}
@@ -69,8 +74,11 @@ static void window_load(Window *window) {
 			.origin = { 0, 60 },
 			.size = { bounds.size.w, 40 }
 		});
+	bitmap_layer = createLayer(bounds);
 	// set text attributes
-	text_layer_set_text(text_layer, "START");
+	//text_layer_set_text(text_layer, "START");
+	curr_img = createImage(RESOURCE_ID_TITLE);
+	displayImage(bitmap_layer, curr_img);
 	text_layer_set_text_color(text_layer, GColorBlack);
 	text_layer_set_text_alignment(text_layer, GTextAlignmentCenter);
 	text_layer_set_font(text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
@@ -83,6 +91,7 @@ static void window_load(Window *window) {
 
 static void window_unload(Window *window) {
 	text_layer_destroy(text_layer);
+	deleteLayer(bitmap_layer);
 }
 
 /* Our logic for setup and teardown -- call in the main driver */
