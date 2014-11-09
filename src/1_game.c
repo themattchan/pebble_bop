@@ -52,7 +52,6 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 		count = 0;
 		time_interval = 5000;
 
-		createLayer
 		//text_layer_set_text(text_layer, "START");
 		curr_img = createImage(RESOURCE_ID_TITLE);
 		displayImage(bitmap_layer, curr_img);
