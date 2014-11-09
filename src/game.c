@@ -5,7 +5,7 @@
 static Window *window;
 static TextLayer *text_layer;
 static BitmapLayer *bitmap_layer;
-static GBitmap *title;
+static GBitmap *curr_img;
 static AppTimer *timer;
 static AppTimer *delay;
 static void timer_callback(void *data);
