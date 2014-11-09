@@ -202,7 +202,7 @@ void handle_check(void) {
 	if(mAction == mGesture){ //success
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "check: success, state > pick_action");
 		deleteImage(curr_img);
-		curr_img = createImage(RESOURCE_ID_CHECK);
+		curr_img = createImage(RESOURCE_ID_CORRECT);
 		displayImage(bitmap_layer, curr_img);
 		count++;
 		time_interval*=0.9;
