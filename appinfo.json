@@ -22,20 +22,17 @@
         {
             "type": "png",
             "name": "BOP",
-            "file": "images/bop.png",
-            "menuIcon": false
+            "file": "images/bop.png"
         },
         {
             "type": "png",
             "name": "TWIST",
-            "file": "images/twist.png",
-            "menuIcon": false
+            "file": "images/twist.png"
         },
         {
             "type": "png",
             "name": "PULL",
-            "file": "images/pull.png",
-            "menuIcon": false
+            "file": "images/pull.png"
         }
     ]
   }
