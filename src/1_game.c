@@ -1,8 +1,11 @@
 #include <pebble.h>
 #include "1_game.h"
+#include "2_gui.h"
 
 static Window *window;
 static TextLayer *text_layer;
+static BitmapLayer *bitmap_layer;
+static GBitmap *curr_img;
 static AppTimer *timer;
 static AppTimer *delay;
 static void timer_callback(void *data);
@@ -36,6 +39,7 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 	if (mState == start) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: start > pick_action");
 		mState = pick_action;
+		createLayer(window);
 		state();
 	} else if (mState == end) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: end > start");
@@ -44,6 +48,7 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 		mState = start;
 		mAction = none;
 		mGesture = none;
+		deleteLayer();
 
 		count = 0;
 		time_interval = 5000;
@@ -83,6 +88,7 @@ static void window_load(Window *window) {
 
 static void window_unload(Window *window) {
 	text_layer_destroy(text_layer);
+	deleteLayer(bitmap_layer);
 }
 
 /* Our logic for setup and teardown -- call in the main driver */
@@ -159,17 +165,23 @@ void handle_pick_action(void) {
 	switch (randInt) {
 	case 0:
 		mAction = bop;
-		text_layer_set_text(text_layer, "BOP");
+		//text_layer_set_text(text_layer, "BOP");
+		curr_img = createImage("RESOURCE_ID_BOP");
+		displayImage(bitmap_layer, curr_img);
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "rand_action: bop");
 		break;
 	case 1:
 		mAction = pull;
-		text_layer_set_text(text_layer, "PULL");
+		//text_layer_set_text(text_layer, "PULL");
+		curr_img = createImage("RESOURCE_ID_PULL");
+		displayImage(bitmap_layer, curr_img);
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "rand_action: pull");
 		break;
 	case 2:
 		mAction = twist;
-		text_layer_set_text(text_layer, "TWIST");
+		//text_layer_set_text(text_layer, "TWIST");
+		curr_img = createImage("RESOURCE_ID_TWIST");
+		displayImage(bitmap_layer, curr_img);
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "rand_action: twist");
 		break;
 	default:
@@ -189,11 +201,17 @@ void handle_pick_action(void) {
 void handle_check(void) {
 	if(mAction == mGesture){ //success
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "check: success, state > pick_action");
+		deleteImage(curr_img);
+		curr_img = createImage("RESOURCE_ID_CHECK");
+		displayImage(bitmap_layer, curr_img);
 		count++;
 		time_interval*=0.9;
 		mState = pick_action;
 	} else { //fail
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "check: fail, state > end");
+		deleteImage(curr_img);
+		curr_img = createImage("RESOURCE_ID_WRONG");
+		displayImage(bitmap_layer, curr_img);
 		mState = end;
 	}
 	state();
@@ -201,6 +219,7 @@ void handle_check(void) {
 
 
 void handle_end(void) {
+	deleteImage(curr_img);
 	static char buf[sizeof(int)];
 	snprintf(buf, sizeof(buf), "%d", count);
 

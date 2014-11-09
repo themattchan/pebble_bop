@@ -33,6 +33,16 @@
             "type": "png",
             "name": "PULL",
             "file": "images/pull.png"
+        },
+        {
+            "type": "png",
+            "name": "CORRECT",
+            "file": "images/check.png"
+        },
+        {
+            "type": "png",
+            "name": "WRONG",
+            "file": "images/wrong.png"
         }
     ]
   }
