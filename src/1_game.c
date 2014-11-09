@@ -14,6 +14,7 @@ static void delay_callback(void *data);
 int count = 0;
 int time_interval = 5000;
 
+
 STATE mState = start;
 
 ACTION mAction = none;			/* Action we want */
@@ -39,8 +40,6 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 	if (mState == start) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: start > pick_action");
 		mState = pick_action;
-		displayImage(bitmap_layer, NULL);
-		deleteImage(curr_img);
 		text_layer_set_text(text_layer, "3");
 		psleep(1000);
 		text_layer_set_text(text_layer, "2");
@@ -55,9 +54,6 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 		mState = start;
 		mAction = none;
 		mGesture = none;
-		if (curr_img != NULL) {
-			deleteImage(curr_img);
-		}
 
 		count = 0;
 		time_interval = 5000;
@@ -150,7 +146,8 @@ void accel_tap_handler(AccelAxisType axis, int32_t direction) {
 		case ACCEL_AXIS_X:
 			if (mState == pick_action) mGesture = pull;
 			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event: pulled");
-			text_layer_set_text(text_layer, "pulled");
+			//text_layer_set_text(text_layer, "pulled");
+			
 			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event = pulled");
 			break;
 		case ACCEL_AXIS_Y:
@@ -216,11 +213,15 @@ void handle_pick_action(void) {
 void handle_check(void) {
 	if(mAction == mGesture){ //success
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "check: success, state > pick_action");
+		curr_img = createImage(RESOURCE_ID_CORRECT);
+		displayImage(bitmap_layer, curr_img);
 		count++;
 		time_interval*=0.9;
 		mState = pick_action;
 	} else { //fail
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "check: fail, state > end");
+		curr_img = createImage(RESOURCE_ID_WRONG);
+		displayImage(bitmap_layer, curr_img);
 		mState = end;
 	}
 	state();
