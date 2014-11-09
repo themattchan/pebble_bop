@@ -40,11 +40,11 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: start > pick_action");
 		mState = pick_action;
 		text_layer_set_text(text_layer, "3");
-		timer = app_timer_register(1000, timer_callback, NULL);
+		psleep(1000);
 		text_layer_set_text(text_layer, "2");
-		timer = app_timer_register(1000, timer_callback, NULL);
+		psleep(1000); 
 		text_layer_set_text(text_layer, "1");
-		timer = app_timer_register(1000, timer_callback, NULL);
+		psleep(1000); 
 		state();
 	} else if (mState == end) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: end > start");
