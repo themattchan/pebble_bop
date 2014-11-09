@@ -12,6 +12,13 @@
     "dummy": 0
   },
   "resources": {
-    "media": []
+    "media": [
+        {
+            "type": "png",
+            "name": "LOGO",
+            "file": "images/logo.png",
+            "menuIcon": true
+        }
+    ]
   }
 }
