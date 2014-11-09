@@ -7,7 +7,6 @@ void state(void);
 void handle_pick_action(void);
 void handle_check(void);
 void handle_end(void);
-static void timer_callback(void *data);
 
 void accel_tap_handler(AccelAxisType axis, int32_t direction);
 
