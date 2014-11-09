@@ -4,8 +4,8 @@
 
 static Window *window;
 static TextLayer *text_layer;
-static BitmapLayer *bitmap_layer;
-static GBitmap *curr_img;
+//static BitmapLayer *bitmap_layer;
+//static GBitmap *curr_img;
 static AppTimer *timer;
 static AppTimer *delay;
 static void timer_callback(void *data);
@@ -52,9 +52,9 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 		count = 0;
 		time_interval = 5000;
 
-		//text_layer_set_text(text_layer, "START");
-		curr_img = createImage(RESOURCE_ID_TITLE);
-		displayImage(bitmap_layer, curr_img);
+		text_layer_set_text(text_layer, "START");
+		//curr_img = createImage(RESOURCE_ID_TITLE);
+		//displayImage(bitmap_layer, curr_img);
 	} else {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: not in valid state");
 	}
@@ -75,9 +75,9 @@ static void window_load(Window *window) {
 			.origin = { 0, 60 },
 			.size = { bounds.size.w, 40 }
 		});
-	bitmap_layer = createLayer(bounds);
+	//bitmap_layer = createLayer(bounds);
 	// set text attributes
-	//text_layer_set_text(text_layer, "START");
+	text_layer_set_text(text_layer, "START");
 	curr_img = createImage(RESOURCE_ID_TITLE);
 	displayImage(bitmap_layer, curr_img);
 	text_layer_set_text_color(text_layer, GColorBlack);
@@ -86,7 +86,7 @@ static void window_load(Window *window) {
 	// set background color
 	text_layer_set_background_color(text_layer, GColorClear);
 	layer_add_child(window_layer, text_layer_get_layer(text_layer));
-	layer_add_child(window_layer, bitmap_layer_get_layer(bitmap_layer));
+	//layer_add_child(window_layer, bitmap_layer_get_layer(bitmap_layer));
 	// turn backlight on
 	light_enable(true);
 }
