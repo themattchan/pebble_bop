@@ -7,7 +7,7 @@
  */
 BitmapLayer* createLayer(GRect bounds) {
 	BitmapLayer* layer = bitmap_layer_create(bounds);
-	bitmap_layer_set_alignment(layer, GAlignTop);
+	bitmap_layer_set_alignment(layer, GAlignTopLeft);
 	bitmap_layer_set_background_color(layer, GColorClear);
 	return layer;
 }
