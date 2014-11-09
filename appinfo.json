@@ -16,23 +16,23 @@
         {
             "type": "png",
             "name": "LOGO",
-            "file": "resources/images/logo.png",
+            "file": "images/logo.png",
             "menuIcon": true
         },
         {
             "type": "png",
             "name": "BOP",
-            "file": "resources/images/bop.png"
+            "file": "images/bop.png"
         },
         {
             "type": "png",
             "name": "TWIST",
-            "file": "resources/images/twist.png"
+            "file": "images/twist.png"
         },
         {
             "type": "png",
             "name": "PULL",
-            "file": "resources/images/pull.png"
+            "file": "images/pull.png"
         }
     ]
   }
