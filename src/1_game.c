@@ -36,8 +36,9 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 		time_interval = 5000;
 
 		text_layer_set_text(text_layer, "START");
+	} else {
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: not in valid state");
 	}
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "select: not in valid state");
 }
 
 static void click_config_provider(void *context) {
@@ -117,21 +118,25 @@ void state(void) {
 
 void accel_tap_handler(AccelAxisType axis, int32_t direction) {
 	if (mState == pick_action) {
-		APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event: state is pick_action");
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event registered");
 		switch (axis) {
 		case ACCEL_AXIS_X:
 			mGesture = pull;
 			text_layer_set_text(text_layer, "pulled");
+			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event = pulled");
 			break;
 		case ACCEL_AXIS_Y:
 			mGesture = twist;
 			text_layer_set_text(text_layer, "twisted");
+			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event = twisted");
 			break;
 		case ACCEL_AXIS_Z:
 			mGesture = bop;
 			text_layer_set_text(text_layer, "bopped");
+			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event = bopped");
 			break;
 		default:
+			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event error");
 			break;
 		}
 	}
@@ -143,23 +148,23 @@ void handle_pick_action(void) {
 		srand(time(NULL));
 	randInt = rand() % 3;
 	switch (randInt) {
-	case bop:
+	case 0:
 		mAction = bop;
 		text_layer_set_text(text_layer, "BOP");
-		APP_LOG(APP_LOG_LEVEL_DEBUG, "pick_action: bop");
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "rand_action: bop");
 		break;
-	case pull:
+	case 1:
 		mAction = pull;
 		text_layer_set_text(text_layer, "PULL");
-		APP_LOG(APP_LOG_LEVEL_DEBUG, "pick_action: pull");
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "rand_action: pull");
 		break;
-	case twist:
+	case 2:
 		mAction = twist;
 		text_layer_set_text(text_layer, "TWIST");
-		APP_LOG(APP_LOG_LEVEL_DEBUG, "pick_action: twist");
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "rand_action: twist");
 		break;
 	default:
-		APP_LOG(APP_LOG_LEVEL_DEBUG, "pick_action: error");
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "rand_action: error");
 		return;
 	}
 	// haptic feedback for new action
@@ -184,11 +189,13 @@ void handle_check(void) {
 
 
 void handle_end(void) {
-	/* char score[sizeof(int)]; */
-	/* snprintf(score, sizeof(int), "%d", count); */
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "made it to end");
+	char scoreTmp[sizeof(int)];
+	snprintf(scoreTmp, sizeof(int), "%d", count);
+	const char score[sizeof(int)];
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "made it to end. Score:");
+	APP_LOG(APP_LOG_LEVEL_DEBUG, score);
 
-	text_layer_set_text(text_layer, "END");
+	text_layer_set_text(text_layer, score);
 
 	vibes_double_pulse();
 }
