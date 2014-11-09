@@ -14,9 +14,20 @@ STATE mState = start;
 ACTION mAction = none;			/* Action we want */
 ACTION mGesture = none;			/* Action that user inputs */
 
-/* Need implementations for unused handlers */
-static void up_click_handler(ClickRecognizerRef recognizer, void *context) {}
-static void down_click_handler(ClickRecognizerRef recognizer, void *context) {}
+static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
+	if (mState == start){
+		text_layer_text_set(text_layer, "PRACTICE");
+		mState == practice;
+	}
+}
+
+static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
+	if (mState == practice) {
+		text_layer_text_set(text_layer, "START");
+		mState = start;
+		mGesture = none;
+	}
+}
 
 /* START WITH MIDDLE BUTTON PUSH */
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
@@ -117,7 +128,7 @@ void state(void) {
 }
 
 void accel_tap_handler(AccelAxisType axis, int32_t direction) {
-	if (mState == pick_action) {
+	if (mState == pick_action|| mState == practice) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event registered");
 		switch (axis) {
 		case ACCEL_AXIS_X:
