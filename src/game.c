@@ -39,7 +39,7 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 	if (mState == start) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: start > pick_action");
 		mState = pick_action;
-		deleteImage(curr_img);
+		//deleteImage(curr_img);
 		state();
 	} else if (mState == end) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "select: end > start");
@@ -93,7 +93,7 @@ static void window_load(Window *window) {
 
 static void window_unload(Window *window) {
 	text_layer_destroy(text_layer);
-	deleteLayer(bitmap_layer);
+	//deleteLayer(bitmap_layer);
 }
 
 /* Our logic for setup and teardown -- call in the main driver */
