@@ -1,4 +1,4 @@
-//#include <pebble.h>
+#include <pebble.h>
 #include "1_game.h"
 
 static Window *window;
@@ -16,14 +16,14 @@ ACTION mGesture = none;			/* Action that user inputs */
 
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
 	if (mState == start){
-		text_layer_text_set(text_layer, "PRACTICE");
-		mState == practice;
+		text_layer_set_text(text_layer, "PRACTICE");
+		mState = practice;
 	}
 }
 
 static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
 	if (mState == practice) {
-		text_layer_text_set(text_layer, "START");
+		text_layer_set_text(text_layer, "START");
 		mState = start;
 		mGesture = none;
 	}
