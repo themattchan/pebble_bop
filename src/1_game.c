@@ -19,7 +19,7 @@ STATE mState = start;
 ACTION mAction = none;			/* Action we want */
 ACTION mGesture = none;			/* Action that user inputs */
 
-static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
+/*static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
 	if (mState == start){
 		text_layer_set_text(text_layer, "PRACTICE");
 		mState = practice;
@@ -32,7 +32,7 @@ static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
 		mState = start;
 		mGesture = none;
 	}
-}
+}*/
 
 /* START WITH MIDDLE BUTTON PUSH */
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
