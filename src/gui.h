@@ -5,9 +5,7 @@
  * Param: window - the window of the app
  * Returns: a bitmap layer for displaying images
  */
-BitmapLayer* createLayer(Window* window) {
-	Layer *window = window_get_root_layer(window);
-	GRect bounds = layer_get_bounds(window);
+BitmapLayer* createLayer(GRect bounds) {
 	BitmapLayer* layer = bitmap_layer_create(bounds);
 	bitmap_layer_set_alignment(layer, "GAlignCenter");
 	return layer;
