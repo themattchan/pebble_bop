@@ -13,7 +13,7 @@ int time_interval = 5000;
 
 STATE mState = start;
 
-ACTION mAction = none;			/* Action we want */
+ACTION mAction = none;			/* Action the thing auto generates */
 ACTION mGesture = none;			/* Action that user inputs */
 
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
@@ -128,19 +128,16 @@ void accel_tap_handler(AccelAxisType axis, int32_t direction) {
 		switch (axis) {
 		case ACCEL_AXIS_X:
 			if (mState == pick_action) mGesture = pull;
-			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event: pulled");
 			text_layer_set_text(text_layer, "pulled");
 			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event = pulled");
 			break;
 		case ACCEL_AXIS_Y:
 			if (mState == pick_action) mGesture = twist;
-			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event: twisted");
 			text_layer_set_text(text_layer, "twisted");
 			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event = twisted");
 			break;
 		case ACCEL_AXIS_Z:
 			if (mState == pick_action) mGesture = bop;
-			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event: bopped");
 			text_layer_set_text(text_layer, "bopped");
 			APP_LOG(APP_LOG_LEVEL_DEBUG, "tap event = bopped");
 			break;
@@ -181,7 +178,7 @@ void handle_pick_action(void) {
 	// (re)start Timer
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "pick_action: timer started");
 	timer = app_timer_register(time_interval, timer_callback, NULL);
-	
+
 	mState = wait;
 	delay = app_timer_register(time_delay, delay_callback, NULL);
 }
